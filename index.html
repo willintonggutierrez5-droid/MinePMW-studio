@@ -1,0 +1,1376 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10131b">
+<title>Rhythm Studio | Music Practice</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700;800&display=swap');
+
+:root {
+  --bg:#10131b;
+  --panel:#1b222e;
+  --panel2:#111722;
+  --line:#30394a;
+  --text:#f2f4f8;
+  --muted:#9ba7b8;
+  --accent:#c3f36b;
+}
+
+* {box-sizing:border-box}
+
+html {scroll-behavior:smooth;scroll-padding-top:90px}
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+}
+
+button,input,select {font:inherit}
+
+button {cursor:pointer}
+
+header {
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:15px;
+  padding:16px 4%;
+  background:#10131bf2;
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(12px);
+}
+
+.logo {
+  font-weight:800;
+  letter-spacing:2px;
+  font-size:18px;
+}
+
+.logo span {color:var(--accent)}
+
+nav {display:flex;gap:18px;flex-wrap:wrap}
+
+nav a {
+  color:#cbd3de;
+  text-decoration:none;
+  font-size:12px;
+}
+
+nav a:hover {color:var(--accent)}
+
+main {width:min(1200px,94%);margin:auto}
+
+.hero {
+  padding:65px 10px 45px;
+}
+
+.eyebrow {
+  color:var(--accent);
+  font:11px 'DM Mono',monospace;
+  letter-spacing:2px;
+}
+
+.hero h1 {
+  font-size:clamp(38px,7vw,70px);
+  line-height:1;
+  letter-spacing:-3px;
+  margin:15px 0;
+}
+
+.hero h1 span {color:var(--accent)}
+
+.hero p,.muted {
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.panel {
+  background:linear-gradient(145deg,#1b222e,#171c26);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:clamp(18px,3vw,32px);
+  margin-bottom:25px;
+}
+
+.heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+h2 {font-size:30px;margin:5px 0}
+h3 {font-size:15px}
+
+.tag {
+  color:var(--accent);
+  border:1px solid #647d3e;
+  border-radius:8px;
+  padding:7px 10px;
+  font:10px 'DM Mono',monospace;
+}
+
+button,.upload {
+  border:1px solid var(--line);
+  background:#202938;
+  color:var(--text);
+  padding:11px 15px;
+  border-radius:10px;
+  font-weight:700;
+  font-size:12px;
+}
+
+button:hover,.upload:hover {
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+.primary {
+  background:var(--accent);
+  color:#17200b;
+  border-color:var(--accent);
+}
+
+.primary:hover {background:#d4ff82;color:#17200b}
+
+select,input[type=number] {
+  background:var(--panel2);
+  border:1px solid var(--line);
+  color:white;
+  border-radius:9px;
+  padding:11px;
+  width:100%;
+}
+
+input[type=range] {
+  accent-color:var(--accent);
+  width:100%;
+}
+
+label {
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  font-size:12px;
+  color:#cbd3de;
+  font-weight:600;
+}
+
+/* METRÓNOMO */
+
+.metro-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.metro-card {
+  background:var(--panel2);
+  border:1px solid var(--line);
+  padding:25px;
+  border-radius:16px;
+}
+
+.bpm {
+  font:80px 'DM Mono',monospace;
+  color:var(--accent);
+  text-align:center;
+}
+
+.bpm small {
+  font-size:14px;
+  color:var(--muted);
+}
+
+.tempo-controls {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:15px;
+}
+
+.beat-circle {
+  width:125px;
+  height:125px;
+  border-radius:50%;
+  border:2px solid var(--accent);
+  display:grid;
+  place-items:center;
+  margin:auto;
+  font:55px 'DM Mono',monospace;
+  color:var(--accent);
+  background:#202c20;
+  transition:.08s;
+}
+
+.beat-circle.flash {
+  transform:scale(1.1);
+  background:#647d3e;
+  color:white;
+}
+
+.dots {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:20px;
+}
+
+.dot {
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#455064;
+}
+
+.dot.active {
+  background:var(--accent);
+  box-shadow:0 0 12px var(--accent);
+}
+
+.controls {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.controls label {min-width:0}
+
+.accent-buttons {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.accent-buttons button.active {
+  background:var(--accent);
+  color:#17200b;
+}
+
+/* CAJA DE SONIDOS */
+
+.sound-controls {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:20px;
+  flex-wrap:wrap;
+  background:var(--panel2);
+  padding:18px;
+  border-radius:14px;
+  margin-bottom:25px;
+}
+
+.sound-controls label {width:min(350px,100%)}
+
+.pad-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.pad {
+  min-height:155px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:#202938;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  transition:.1s;
+}
+
+.pad span {font-size:34px}
+.pad b {font:13px 'DM Mono',monospace}
+.pad small {color:var(--muted);font-size:10px}
+
+.pad:active,.pad.playing {
+  transform:scale(.95);
+  border-color:var(--accent);
+  background:#394b2a;
+}
+
+.pad:nth-child(4n+1) {background:#382b2b}
+.pad:nth-child(4n+2) {background:#30283a}
+.pad:nth-child(4n+3) {background:#263a42}
+.pad:nth-child(4n+4) {background:#403a28}
+
+.tones .pad {
+  min-height:110px;
+  background:#1e2b39;
+}
+
+/* SECUENCIADOR */
+
+.toolbar {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:end;
+  background:var(--panel2);
+  padding:17px;
+  border-radius:14px;
+}
+
+.toolbar label {flex:1;min-width:160px}
+
+.figure-list {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:18px 0;
+}
+
+.figure-list button.selected {
+  background:var(--accent);
+  color:#17200b;
+  border-color:var(--accent);
+}
+
+.scroll-grid {
+  overflow-x:auto;
+  background:var(--panel2);
+  border-radius:12px;
+  padding:12px;
+}
+
+.track {
+  display:grid;
+  grid-template-columns:90px repeat(var(--steps),20px);
+  gap:3px;
+  margin-bottom:9px;
+  min-width:max-content;
+}
+
+.track-name {
+  display:flex;
+  align-items:center;
+  font:10px 'DM Mono',monospace;
+  color:#dce3ed;
+}
+
+.step {
+  height:35px;
+  padding:0;
+  border-radius:4px;
+  background:#263142;
+  border:1px solid #39465a;
+  min-width:0;
+}
+
+.step.beat-start {border-left:2px solid #8a9aaf}
+
+.step.active {
+  background:var(--accent);
+  color:#17200b;
+  border-color:var(--accent);
+}
+
+.step.continuation {
+  background:#627e39;
+  border-color:#627e39;
+}
+
+.step.playhead {outline:2px solid white}
+
+.legend {
+  display:flex;
+  flex-wrap:wrap;
+  gap:13px;
+  color:var(--muted);
+  font-size:11px;
+  margin:18px 0;
+}
+
+/* TEMPORIZADOR */
+
+.timer-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.clock {
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:16px;
+  min-height:220px;
+  display:grid;
+  place-content:center;
+  text-align:center;
+}
+
+.clock strong {
+  font:clamp(55px,8vw,80px) 'DM Mono',monospace;
+  color:var(--accent);
+}
+
+.clock span {
+  color:var(--muted);
+  font:10px 'DM Mono',monospace;
+  margin-top:10px;
+}
+
+.choices {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.choices button.selected {
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+  font-size:11px;
+}
+
+@media(max-width:750px) {
+  .metro-grid,.timer-grid {grid-template-columns:1fr}
+  .controls {grid-template-columns:1fr 1fr}
+  .pad-grid {grid-template-columns:repeat(2,1fr)}
+  .hero {padding-top:40px}
+  nav {width:100%;overflow:auto}
+  nav a {white-space:nowrap}
+}
+
+@media(max-width:400px) {
+  .bpm {font-size:65px}
+  .panel {padding:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">RHYTHM <span>STUDIO ♫</span></div>
+  <nav>
+    <a href="#metronomo">Metrónomo</a>
+    <a href="#sonidos">Sonidos</a>
+    <a href="#secuenciador">Secuenciador</a>
+    <a href="#temporizador">Temporizador</a>
+  </nav>
+  <button id="enableAudio">Activar audio</button>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="eyebrow">TU ESTUDIO MUSICAL PERSONAL</div>
+  <h1>Encuentra tu <span>pulso.</span><br>Construye tu ritmo.</h1>
+  <p>Practica, experimenta y desarrolla tu sentido musical.</p>
+</section>
+
+<!-- METRÓNOMO -->
+
+<section class="panel" id="metronomo">
+  <div class="heading">
+    <div><div class="eyebrow">01 / CONTROL DEL TIEMPO</div><h2>Metrónomo</h2></div>
+    <span class="tag" id="status">DETENIDO</span>
+  </div>
+
+  <div class="metro-grid">
+    <div class="metro-card">
+      <div class="bpm"><span id="bpm">120</span><small> BPM</small></div>
+      <input id="bpmRange" type="range" min="30" max="300" value="120">
+
+      <div class="tempo-controls">
+        <button id="minus">−</button>
+        <button id="tap">TAP TEMPO</button>
+        <button id="plus">+</button>
+      </div>
+
+      <div class="choices">
+        <button data-bpm="60">60</button>
+        <button data-bpm="80">80</button>
+        <button data-bpm="100">100</button>
+        <button data-bpm="120">120</button>
+        <button data-bpm="140">140</button>
+        <button data-bpm="160">160</button>
+      </div>
+    </div>
+
+    <div class="metro-card" style="text-align:center">
+      <div class="beat-circle" id="beatCircle">1</div>
+      <div class="dots" id="dots"></div>
+      <p class="muted" id="beatText">Tiempo 1</p>
+      <button class="primary" id="start">▶ INICIAR</button>
+      <button id="stop">■ DETENER</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <label>Compás
+      <select id="meter">
+        <option value="2">2/4</option>
+        <option value="3">3/4</option>
+        <option value="4" selected>4/4</option>
+        <option value="5">5/4</option>
+        <option value="6">6/8</option>
+        <option value="7">7/8</option>
+        <option value="9">9/8</option>
+        <option value="12">12/8</option>
+      </select>
+    </label>
+
+    <label>Sonido
+      <select id="metroSound">
+        <option value="wood">Madera</option>
+        <option value="click">Clic</option>
+        <option value="beep">Pitido</option>
+        <option value="cowbell">Cencerro</option>
+      </select>
+    </label>
+
+    <label>Volumen
+      <input id="metroVolume" type="range" min="0" max="100" value="70">
+    </label>
+  </div>
+
+  <p class="muted">Acentos del compás: pulsa los tiempos que quieras acentuar.</p>
+  <div class="accent-buttons" id="accents"></div>
+</section>
+
+<!-- CAJA DE SONIDOS -->
+
+<section class="panel" id="sonidos">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">02 / SONIDOS MANUALES</div>
+      <h2>Caja de sonidos</h2>
+      <p class="muted">Pulsa los pads para tocar. También puedes usar las teclas indicadas.</p>
+    </div>
+    <span class="tag">SOUNDBOARD</span>
+  </div>
+
+  <div class="sound-controls">
+    <label>Volumen general
+      <input id="padVolume" type="range" min="0" max="100" value="80">
+    </label>
+    <label class="upload">
+      ＋ Cargar tus propios sonidos
+      <input id="upload" type="file" accept="audio/*" multiple hidden>
+    </label>
+  </div>
+
+  <h3>PERCUSIÓN</h3>
+  <div class="pad-grid">
+    <button class="pad" data-sound="kick"><span>🥁</span><b>BOMBO</b><small>Tecla K</small></button>
+    <button class="pad" data-sound="snare"><span>▰</span><b>CAJA</b><small>Tecla S</small></button>
+    <button class="pad" data-sound="hat"><span>✳</span><b>HI-HAT</b><small>Tecla H</small></button>
+    <button class="pad" data-sound="clap"><span>👏</span><b>PALMAS</b><small>Tecla C</small></button>
+    <button class="pad" data-sound="cowbell"><span>🔔</span><b>CENCERRO</b><small>Tecla B</small></button>
+    <button class="pad" data-sound="tom"><span>◉</span><b>TOM</b><small>Tecla T</small></button>
+    <button class="pad" data-sound="shaker"><span>〰</span><b>SHAKER</b><small>Tecla J</small></button>
+    <button class="pad" data-sound="rim"><span>⌁</span><b>RIMSHOT</b><small>Tecla R</small></button>
+  </div>
+
+  <h3>NOTAS MUSICALES</h3>
+  <div class="pad-grid tones">
+    <button class="pad" data-tone="261.63"><span>♪</span><b>DO</b><small>C4</small></button>
+    <button class="pad" data-tone="293.66"><span>♪</span><b>RE</b><small>D4</small></button>
+    <button class="pad" data-tone="329.63"><span>♪</span><b>MI</b><small>E4</small></button>
+    <button class="pad" data-tone="349.23"><span>♪</span><b>FA</b><small>F4</small></button>
+    <button class="pad" data-tone="392"><span>♪</span><b>SOL</b><small>G4</small></button>
+    <button class="pad" data-tone="440"><span>♪</span><b>LA</b><small>A4</small></button>
+    <button class="pad" data-tone="493.88"><span>♪</span><b>SI</b><small>B4</small></button>
+    <button class="pad" data-tone="523.25"><span>♪</span><b>DO</b><small>C5</small></button>
+  </div>
+
+  <h3>TUS SONIDOS</h3>
+  <div class="pad-grid" id="customPads"></div>
+</section>
+
+<!-- SECUENCIADOR -->
+
+<section class="panel" id="secuenciador">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">03 / CREACIÓN RÍTMICA</div>
+      <h2>Constructor de ritmos</h2>
+      <p class="muted">Selecciona una figura, elige una pista y dibuja tu patrón.</p>
+    </div>
+    <span class="tag">SEQUENCER</span>
+  </div>
+
+  <div class="toolbar">
+    <label>Figura musical
+      <select id="figure">
+        <option value="1">Semifusa</option>
+        <option value="2">Fusa</option>
+        <option value="4">Semicorchea</option>
+        <option value="8">Corchea</option>
+        <option value="16" selected>Negra</option>
+        <option value="32">Blanca</option>
+        <option value="64">Redonda</option>
+        <option value="12">Corchea con puntillo</option>
+        <option value="24">Negra con puntillo</option>
+        <option value="5.333333">Tresillo de corcheas</option>
+      </select>
+    </label>
+
+    <label>Extensión
+      <select id="bars">
+        <option value="1">1 compás</option>
+        <option value="2" selected>2 compases</option>
+        <option value="4">4 compases</option>
+      </select>
+    </label>
+
+    <button id="clear">Limpiar patrón</button>
+    <button class="primary" id="playPattern">▶ REPRODUCIR</button>
+    <button id="savePattern">Guardar patrón</button>
+  </div>
+
+  <div class="legend">
+    <span>𝅝 Redonda</span>
+    <span>𝅗𝅥 Blanca</span>
+    <span>♩ Negra</span>
+    <span>♪ Corchea</span>
+    <span>𝅘𝅥𝅯 Semicorchea</span>
+    <span>𝅘𝅥𝅰 Fusa</span>
+    <span>𝅘𝅥𝅱 Semifusa</span>
+    <span>³ Tresillo</span>
+    <span>Celda vacía = silencio</span>
+  </div>
+
+  <div class="scroll-grid">
+    <div id="sequencer"></div>
+  </div>
+
+  <p class="muted" id="patternInfo"></p>
+  <p class="muted">La cuadrícula representa 16 subdivisiones por pulso. Las figuras más largas ocupan las posiciones siguientes. El tresillo utiliza posiciones fraccionarias.</p>
+</section>
+
+<!-- TEMPORIZADOR -->
+
+<section class="panel" id="temporizador">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">04 / ENTRENAMIENTO</div>
+      <h2>Temporizador de práctica</h2>
+      <p class="muted">Organiza tu tiempo y mantén la constancia.</p>
+    </div>
+    <span class="tag">FOCUS TIME</span>
+  </div>
+
+  <div class="timer-grid">
+    <div class="clock">
+      <strong id="timerDisplay">60:00</strong>
+      <span id="timerStatus">LISTO PARA PRACTICAR</span>
+    </div>
+
+    <div>
+      <label>Duración de la sesión</label>
+      <div class="choices" id="minuteChoices">
+        <button data-min="5">5 min</button>
+        <button data-min="10">10 min</button>
+        <button data-min="15">15 min</button>
+        <button data-min="30">30 min</button>
+        <button data-min="45">45 min</button>
+        <button data-min="60" class="selected">60 min</button>
+      </div>
+
+      <br>
+
+      <label>Tiempo personalizado (minutos)
+        <input type="number" id="customMinutes" min="1" max="240" value="60">
+      </label>
+
+      <br>
+
+      <button class="primary" id="timerStart">▶ COMENZAR</button>
+      <button id="timerPause">PAUSAR</button>
+      <button id="timerReset">REINICIAR</button>
+
+      <br><br>
+      <label style="flex-direction:row;align-items:center">
+        <input type="checkbox" id="alarm" checked>
+        Aviso sonoro al finalizar
+      </label>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>RHYTHM STUDIO ♫ · PRACTICA CON INTENCIÓN</footer>
+
+<script>
+/* =========================================
+   AUDIO
+========================================= */
+
+let audio = null;
+let master = null;
+let metroGain = null;
+let padGain = null;
+
+function initAudio() {
+  if (!audio) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) {
+      alert("Tu navegador no soporta Web Audio API.");
+      return false;
+    }
+
+    audio = new AudioContext();
+
+    master = audio.createGain();
+    metroGain = audio.createGain();
+    padGain = audio.createGain();
+
+    master.connect(audio.destination);
+    metroGain.connect(master);
+    padGain.connect(master);
+  }
+
+  if (audio.state === "suspended") audio.resume();
+
+  document.getElementById("enableAudio").textContent = "Audio activado";
+  return true;
+}
+
+function playTone(freq,time,duration,type,gain,destination) {
+  if (!audio) return;
+
+  const osc = audio.createOscillator();
+  const amp = audio.createGain();
+
+  osc.type = type || "sine";
+  osc.frequency.setValueAtTime(freq,time);
+
+  amp.gain.setValueAtTime(.0001,time);
+  amp.gain.exponentialRampToValueAtTime(Math.max(.0001,gain),time+.008);
+  amp.gain.exponentialRampToValueAtTime(.0001,time+duration);
+
+  osc.connect(amp);
+  amp.connect(destination);
+
+  osc.start(time);
+  osc.stop(time+duration+.02);
+}
+
+function playNoise(time,duration,gain,filter=1000) {
+  if (!audio) return;
+
+  const buffer = audio.createBuffer(
+    1,
+    Math.floor(audio.sampleRate*duration),
+    audio.sampleRate
+  );
+
+  const data = buffer.getChannelData(0);
+
+  for (let i=0;i<data.length;i++) {
+    data[i] = Math.random()*2-1;
+  }
+
+  const source = audio.createBufferSource();
+  const filterNode = audio.createBiquadFilter();
+  const amp = audio.createGain();
+
+  source.buffer = buffer;
+  filterNode.type = "highpass";
+  filterNode.frequency.value = filter;
+
+  amp.gain.setValueAtTime(gain,time);
+  amp.gain.exponentialRampToValueAtTime(.0001,time+duration);
+
+  source.connect(filterNode);
+  filterNode.connect(amp);
+  amp.connect(padGain);
+
+  source.start(time);
+}
+
+function playSound(name,time) {
+  if (!audio) return;
+
+  const t = time ?? audio.currentTime;
+
+  switch(name) {
+    case "kick":
+      playTone(125,t,.22,"sine",.8,padGain);
+      playTone(55,t,.18,"sine",.5,padGain);
+      break;
+
+    case "snare":
+      playNoise(t,.15,.5,900);
+      playTone(185,t,.08,"triangle",.2,padGain);
+      break;
+
+    case "hat":
+      playNoise(t,.05,.22,6500);
+      break;
+
+    case "clap":
+      playNoise(t,.12,.35,1300);
+      break;
+
+    case "cowbell":
+      playTone(560,t,.2,"square",.18,padGain);
+      playTone(845,t,.18,"square",.12,padGain);
+      break;
+
+    case "tom":
+      playTone(105,t,.24,"sine",.5,padGain);
+      break;
+
+    case "shaker":
+      playNoise(t,.09,.2,3800);
+      break;
+
+    case "rim":
+      playTone(920,t,.05,"triangle",.3,padGain);
+      break;
+  }
+}
+
+document.getElementById("enableAudio")
+  .addEventListener("click",initAudio);
+
+/* =========================================
+   METRÓNOMO Y RELOJ MAESTRO
+========================================= */
+
+let bpm = 120;
+let running = false;
+let nextTime = 0;
+let tickPosition = 0;
+let scheduler = null;
+let accents = [];
+
+const TICKS_PER_BEAT = 16;
+
+const $ = id => document.getElementById(id);
+
+function setBpm(value) {
+  bpm = Math.max(30,Math.min(300,Math.round(value)));
+  $("bpm").textContent = bpm;
+  $("bpmRange").value = bpm;
+}
+
+$("bpmRange").addEventListener("input",e=>setBpm(e.target.value));
+$("minus").onclick=()=>setBpm(bpm-1);
+$("plus").onclick=()=>setBpm(bpm+1);
+
+document.querySelectorAll("[data-bpm]").forEach(button=>{
+  button.onclick=()=>setBpm(button.dataset.bpm);
+});
+
+let taps=[];
+
+$("tap").onclick=()=>{
+  const now=performance.now();
+  taps.push(now);
+  taps=taps.slice(-5);
+
+  if(taps.length>1) {
+    const intervals=taps.slice(1).map((v,i)=>v-taps[i]);
+    const avg=intervals.reduce((a,b)=>a+b,0)/intervals.length;
+    setBpm(60000/avg);
+  }
+};
+
+function renderAccents() {
+  const count=Number($("meter").value);
+
+  accents=Array.from({length:count},(_,i)=>i===0);
+
+  $("accents").innerHTML="";
+
+  accents.forEach((active,i)=>{
+    const button=document.createElement("button");
+    button.textContent=i+1;
+    button.className=active?"active":"";
+
+    button.onclick=()=>{
+      accents[i]=!accents[i];
+      button.classList.toggle("active");
+    };
+
+    $("accents").appendChild(button);
+  });
+
+  renderDots();
+}
+
+function renderDots() {
+  const count=Number($("meter").value);
+  $("dots").innerHTML="";
+
+  for(let i=0;i<count;i++) {
+    const dot=document.createElement("div");
+    dot.className="dot";
+    dot.id="dot"+i;
+    $("dots").appendChild(dot);
+  }
+}
+
+function metroClick(time,index) {
+  const accented=accents[index] ?? false;
+  const sound=$("metroSound").value;
+  const volume=Number($("metroVolume").value)/100;
+
+  metroGain.gain.setValueAtTime(volume,time);
+
+  if(sound==="wood") {
+    playTone(accented?1550:1050,time,.045,"triangle",accented?.4:.25,metroGain);
+  } else if(sound==="beep") {
+    playTone(accented?1250:850,time,.055,"sine",.3,metroGain);
+  } else if(sound==="cowbell") {
+    playTone(accented?780:620,time,.09,"square",.2,metroGain);
+  } else {
+    playTone(accented?1800:1200,time,.035,"square",.25,metroGain);
+  }
+
+  const delay=Math.max(0,(time-audio.currentTime)*1000);
+
+  setTimeout(()=>{
+    $("beatCircle").textContent=index+1;
+    $("beatCircle").classList.add("flash");
+
+    document.querySelectorAll(".dot").forEach(d=>d.classList.remove("active"));
+    $("dot"+index)?.classList.add("active");
+
+    $("beatText").textContent="Tiempo "+(index+1);
+    setTimeout(()=>$("beatCircle").classList.remove("flash"),100);
+  },delay);
+}
+
+function schedulerTick() {
+  if(!running) return;
+
+  const tickDuration=60/bpm/TICKS_PER_BEAT;
+
+  while(nextTime<audio.currentTime+.12) {
+
+    const beats=Number($("meter").value);
+    const tickInBar=tickPosition%(beats*TICKS_PER_BEAT);
+
+    if(tickInBar%TICKS_PER_BEAT===0) {
+      const beat=Math.floor(tickInBar/TICKS_PER_BEAT);
+      metroClick(nextTime,beat);
+    }
+
+    // El secuenciador comparte este mismo reloj.
+    playScheduledEvents(tickPosition,nextTime);
+
+    nextTime+=tickDuration;
+    tickPosition++;
+  }
+}
+
+function startTransport() {
+  if(running) return;
+  if(!initAudio()) return;
+
+  running=true;
+  tickPosition=0;
+  nextTime=audio.currentTime+.05;
+
+  scheduler=setInterval(schedulerTick,20);
+
+  $("status").textContent="EN MARCHA";
+  $("start").textContent="● EN MARCHA";
+}
+
+function stopTransport() {
+  running=false;
+  clearInterval(scheduler);
+  scheduler=null;
+
+  $("status").textContent="DETENIDO";
+  $("start").textContent="▶ INICIAR";
+
+  stopPatternVisual();
+}
+
+$("start").onclick=startTransport;
+$("stop").onclick=stopTransport;
+
+$("meter").addEventListener("change",()=>{
+  renderAccents();
+  renderSequencer();
+});
+
+renderAccents();
+
+/* =========================================
+   CAJA DE SONIDOS
+========================================= */
+
+let padVolume=.8;
+
+$("padVolume").addEventListener("input",e=>{
+  padVolume=Number(e.target.value)/100;
+  if(padGain)padGain.gain.value=padVolume;
+});
+
+document.querySelectorAll("[data-sound]").forEach(button=>{
+  button.onclick=()=>{
+    initAudio();
+    playSound(button.dataset.sound);
+    button.classList.add("playing");
+    setTimeout(()=>button.classList.remove("playing"),120);
+  };
+});
+
+document.querySelectorAll("[data-tone]").forEach(button=>{
+  button.onclick=()=>{
+    initAudio();
+    playTone(
+      Number(button.dataset.tone),
+      audio.currentTime,
+      .45,
+      "sine",
+      .35,
+      padGain
+    );
+    button.classList.add("playing");
+    setTimeout(()=>button.classList.remove("playing"),120);
+  };
+});
+
+const keyboardSounds={
+  k:"kick",s:"snare",h:"hat",c:"clap",
+  b:"cowbell",t:"tom",j:"shaker",r:"rim"
+};
+
+window.addEventListener("keydown",e=>{
+  if(["INPUT","SELECT","TEXTAREA"].includes(document.activeElement.tagName))return;
+  const sound=keyboardSounds[e.key.toLowerCase()];
+  if(sound&&!e.repeat) {
+    initAudio();
+    playSound(sound);
+  }
+});
+
+$("upload").addEventListener("change",e=>{
+  [...e.target.files].forEach(file=>{
+    const url=URL.createObjectURL(file);
+    const button=document.createElement("button");
+    button.className="pad";
+    button.innerHTML=`<span>🎵</span><b>${file.name.replace(/[<>]/g,"")}</b><small>Audio propio</small>`;
+
+    button.onclick=()=>{
+      const a=new Audio(url);
+      a.volume=padVolume;
+      a.play();
+    };
+
+    $("customPads").appendChild(button);
+  });
+  e.target.value="";
+});
+
+/* =========================================
+   SECUENCIADOR RÍTMICO
+========================================= */
+
+// Cada pulso tiene 16 posiciones.
+// 1/64 = 1 tick; 1/32 = 2; 1/16 = 4; 1/8 = 8; negra = 16.
+const trackNames=[
+  ["BOMBO","kick"],
+  ["CAJA","snare"],
+  ["HI-HAT","hat"],
+  ["PALMAS","clap"],
+  ["CENCERRO","cowbell"],
+  ["TOM","tom"],
+  ["SHAKER","shaker"],
+  ["RIMSHOT","rim"]
+];
+
+const figures={
+  "1":{name:"Semifusa",duration:1,symbol:"𝅘𝅥𝅱"},
+  "2":{name:"Fusa",duration:2,symbol:"𝅘𝅥𝅰"},
+  "4":{name:"Semicorchea",duration:4,symbol:"𝅘𝅥𝅯"},
+  "8":{name:"Corchea",duration:8,symbol:"♪"},
+  "16":{name:"Negra",duration:16,symbol:"♩"},
+  "32":{name:"Blanca",duration:32,symbol:"𝅗𝅥"},
+  "64":{name:"Redonda",duration:64,symbol:"𝅝"},
+  "12":{name:"Corchea con puntillo",duration:12,symbol:"♪·"},
+  "24":{name:"Negra con puntillo",duration:24,symbol:"♩·"},
+  "5.333333":{name:"Tresillo",duration:16/3,symbol:"³"}
+};
+
+let events=[];
+let patternLength=128;
+let selectedFigure="16";
+let visualTick=-1;
+
+$("figure").onchange=e=>selectedFigure=e.target.value;
+
+function totalTicks() {
+  return Number($("meter").value)*16*Number($("bars").value);
+}
+
+function renderSequencer() {
+  patternLength=totalTicks();
+  $("sequencer").innerHTML="";
+  $("sequencer").style.setProperty("--steps",patternLength);
+
+  trackNames.forEach(([name,sound])=>{
+    const row=document.createElement("div");
+    row.className="track";
+    row.dataset.sound=sound;
+
+    const title=document.createElement("div");
+    title.className="track-name";
+    title.textContent=name;
+    row.appendChild(title);
+
+    for(let i=0;i<patternLength;i++) {
+      const cell=document.createElement("button");
+      cell.className="step";
+      if(i%16===0)cell.classList.add("beat-start");
+      cell.dataset.tick=i;
+      cell.title=name+" · posición "+(i+1);
+
+      cell.onclick=()=>{
+        const key=sound+":"+i;
+        const existing=events.find(e=>e.key===key);
+
+        if(existing) {
+          events=events.filter(e=>e!==existing);
+        } else {
+          const fig=figures[selectedFigure];
+          events=events.filter(e=>
+            !(e.sound===sound &&
+              e.tick<i+fig.duration &&
+              e.tick+e.duration>i)
+          );
+
+          events.push({
+            key,
+            sound,
+            tick:i,
+            duration:fig.duration,
+            symbol:fig.symbol
+          });
+        }
+
+        drawEvents();
+      };
+
+      row.appendChild(cell);
+    }
+
+    $("sequencer").appendChild(row);
+  });
+
+  $("patternInfo").textContent=
+    patternLength+" subdivisiones · "+
+    $("bars").value+" compás(es) · "+
+    $("meter").value+"/4";
+
+  drawEvents();
+}
+
+function drawEvents() {
+  document.querySelectorAll(".track").forEach(row=>{
+    row.querySelectorAll(".step").forEach(cell=>{
+      cell.classList.remove("active","continuation");
+      cell.textContent="";
+    });
+
+    events.filter(e=>e.sound===row.dataset.sound).forEach(e=>{
+      const start=row.querySelector(`[data-tick="${Math.floor(e.tick)}"]`);
+      if(start) {
+        start.classList.add("active");
+        start.textContent=e.symbol;
+      }
+
+      for(let n=1;n<Math.ceil(e.duration);n++) {
+        const cell=row.querySelector(`[data-tick="${Math.floor(e.tick)+n}"]`);
+        if(cell)cell.classList.add("continuation");
+      }
+    });
+  });
+}
+
+function playScheduledEvents(tick,time) {
+  if(!patternPlaying)return;
+
+  const position=tick%patternLength;
+
+  events.filter(e=>Math.abs(e.tick-position)<.001).forEach(e=>{
+    playSound(e.sound,time);
+  });
+
+  if(position!==visualTick) {
+    visualTick=position;
+    document.querySelectorAll(".step.playhead").forEach(c=>c.classList.remove("playhead"));
+
+    document.querySelectorAll(".track").forEach(row=>{
+      row.querySelector(`[data-tick="${Math.floor(position)}"]`)?.classList.add("playhead");
+    });
+  }
+}
+
+let patternPlaying=false;
+
+function stopPatternVisual() {
+  patternPlaying=false;
+  $("playPattern").textContent="▶ REPRODUCIR";
+  document.querySelectorAll(".step.playhead").forEach(c=>c.classList.remove("playhead"));
+}
+
+$("playPattern").onclick=()=>{
+  if(patternPlaying) {
+    stopPatternVisual();
+    return;
+  }
+
+  patternPlaying=true;
+  $("playPattern").textContent="■ DETENER";
+
+  if(!running)startTransport();
+};
+
+$("bars").onchange=()=>{
+  events=events.filter(e=>e.tick<totalTicks());
+  renderSequencer();
+};
+
+$("clear").onclick=()=>{
+  events=[];
+  drawEvents();
+};
+
+$("savePattern").onclick=()=>{
+  const data={
+    bpm,
+    meter:$("meter").value,
+    bars:$("bars").value,
+    events
+  };
+
+  localStorage.setItem("rhythmStudioPattern",JSON.stringify(data));
+  alert("Patrón guardado correctamente en este navegador.");
+};
+
+try {
+  const saved=JSON.parse(localStorage.getItem("rhythmStudioPattern"));
+  if(saved&&Array.isArray(saved.events)) {
+    events=saved.events;
+  }
+} catch(e) {}
+
+renderSequencer();
+
+/* =========================================
+   TEMPORIZADOR
+========================================= */
+
+let remaining=3600;
+let timerEnd=0;
+let timerRunning=false;
+let timerInterval=null;
+
+function formatTime(seconds) {
+  const min=Math.floor(seconds/60);
+  const sec=seconds%60;
+
+  return String(min).padStart(2,"0")+":"+
+         String(sec).padStart(2,"0");
+}
+
+function updateTimer() {
+  $("timerDisplay").textContent=formatTime(remaining);
+}
+
+function setMinutes(value) {
+  const minutes=Math.max(1,Math.min(240,Number(value)||60));
+
+  remaining=Math.round(minutes*60);
+  $("customMinutes").value=minutes;
+  updateTimer();
+}
+
+document.querySelectorAll("[data-min]").forEach(button=>{
+  button.onclick=()=>{
+    document.querySelectorAll("[data-min]").forEach(b=>b.classList.remove("selected"));
+    button.classList.add("selected");
+    setMinutes(button.dataset.min);
+  };
+});
+
+$("customMinutes").onchange=e=>{
+  setMinutes(e.target.value);
+  document.querySelectorAll("[data-min]").forEach(b=>{
+    b.classList.toggle("selected",Number(b.dataset.min)===Number(e.target.value));
+  });
+};
+
+function timerTick() {
+  remaining=Math.max(0,Math.ceil((timerEnd-Date.now())/1000));
+  updateTimer();
+
+  if(remaining===0) {
+    clearInterval(timerInterval);
+    timerRunning=false;
+    $("timerStatus").textContent="SESIÓN COMPLETADA";
+
+    if($("alarm").checked) {
+      initAudio();
+      playSound("cowbell");
+      setTimeout(()=>playSound("cowbell"),350);
+    }
+  }
+}
+
+$("timerStart").onclick=()=>{
+  if(timerRunning)return;
+
+  initAudio();
+  timerRunning=true;
+  timerEnd=Date.now()+remaining*1000;
+
+  $("timerStatus").textContent="SESIÓN EN CURSO";
+  timerInterval=setInterval(timerTick,250);
+};
+
+$("timerPause").onclick=()=>{
+  if(!timerRunning)return;
+
+  timerTick();
+  clearInterval(timerInterval);
+  timerRunning=false;
+  $("timerStatus").textContent="SESIÓN EN PAUSA";
+};
+
+$("timerReset").onclick=()=>{
+  clearInterval(timerInterval);
+  timerRunning=false;
+  setMinutes($("customMinutes").value);
+  $("timerStatus").textContent="LISTO PARA PRACTICAR";
+};
+
+updateTimer();
+</script>
+
+</body>
+</html>
