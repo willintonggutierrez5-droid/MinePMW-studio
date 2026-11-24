@@ -458,6 +458,53 @@ footer {
   .bpm {font-size:65px}
   .panel {padding:15px}
 }
+
+/* RASGUEOS */
+.strum-live {
+  margin-top:22px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:linear-gradient(145deg,#111722,#202938);
+}
+.strum-live-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.strum-live-title{font:11px 'DM Mono',monospace;color:var(--accent);letter-spacing:1.5px}
+.strum-live-sequence{display:flex;gap:9px;flex-wrap:wrap;align-items:center;min-height:86px;padding:13px 0}
+.strum-step{
+  min-width:62px;min-height:68px;border:1px solid var(--line);border-radius:13px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;
+  background:#202938;color:#f2f4f8;font:30px 'DM Mono',monospace;transition:.08s;
+}
+.strum-step small{font:9px 'DM Mono',monospace;color:var(--muted)}
+.strum-step.down{color:#ff91b2;border-color:#704457}
+.strum-step.up{color:#79c9ff;border-color:#345a70}
+.strum-step.bass1{color:#c3f36b;border-color:#647d3e}
+.strum-step.bass2{color:#ffbd70;border-color:#80603c}
+.strum-step.active{background:var(--accent);color:#17200b;border-color:var(--accent);box-shadow:0 0 18px #c3f36b66;transform:translateY(-3px)}
+.strum-step.active small{color:#26351a}
+.strum-toggle{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px}
+.strum-toggle input{accent-color:var(--accent);width:18px;height:18px}
+.strum-config{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.strum-config summary{cursor:pointer;color:var(--accent);font:12px 'DM Mono',monospace;letter-spacing:1px}
+.strum-form{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:16px 0}
+.strum-form label{min-width:0}
+.strum-form .wide{grid-column:1/-1}
+.strum-form select,.strum-form input{background:var(--panel2);border:1px solid var(--line);color:white;border-radius:9px;padding:10px;width:100%}
+.strum-list{display:grid;gap:7px;margin-top:12px}
+.strum-row{display:grid;grid-template-columns:42px minmax(0,1fr) auto auto;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);background:#111722;border-radius:10px}
+.strum-row-symbol{font:25px 'DM Mono',monospace;text-align:center}
+.strum-row small{display:block;color:var(--muted);font-size:10px}
+.strum-row button{padding:7px 10px}
+.strum-library{display:grid;gap:7px;margin-top:10px}
+.strum-library-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#202938}
+.strum-library-row span{font-size:12px}
+.strum-muted{font-size:11px;color:var(--muted)}
+.ramp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px;padding:15px;background:var(--panel2);border:1px solid var(--line);border-radius:14px}
+.ramp-grid label{min-width:0}
+.ramp-grid input,.ramp-grid select{background:#101722;color:white;border:1px solid var(--line);border-radius:9px;padding:9px;width:100%}
+@media(max-width:750px){.strum-form,.ramp-grid{grid-template-columns:1fr 1fr}.strum-row{grid-template-columns:35px minmax(0,1fr) auto auto}.strum-step{min-width:53px}}
+@media(max-width:430px){.strum-form,.ramp-grid{grid-template-columns:1fr}.strum-row{grid-template-columns:32px minmax(0,1fr) auto auto}.strum-row button{padding:6px}}
+
 </style>
 </head>
 
@@ -466,10 +513,10 @@ footer {
 <header>
   <div class="logo">RHYTHM <span>STUDIO ♫</span></div>
   <nav>
-    <a href="#metronomo">Metrónomo</a>
-    <a href="#sonidos">Sonidos</a>
-    <a href="#secuenciador">Secuenciador</a>
+    <a href="#metronomo">Metrónomo + rasgueos</a>
     <a href="#temporizador">Temporizador</a>
+    <a href="#secuenciador">Constructor de ritmos</a>
+    <a href="#sonidos">Caja de sonidos</a>
   </nav>
   <button id="enableAudio">Activar audio</button>
 </header>
@@ -550,6 +597,96 @@ footer {
 
   <p class="muted">Acentos del compás: pulsa los tiempos que quieras acentuar.</p>
   <div class="accent-buttons" id="accents"></div>
+
+  <div class="strum-live" id="strumLive">
+    <div class="strum-live-head">
+      <div>
+        <div class="strum-live-title">RASGUEO EN VIVO</div>
+        <div class="muted" style="font-size:12px;margin-top:4px">Sigue las flechas y los bajeos al mismo tiempo que el metrónomo.</div>
+      </div>
+      <label class="strum-toggle"><input type="checkbox" id="strumEnabled"> Activar rasgueos</label>
+    </div>
+    <div class="strum-live-sequence" id="strumLiveSequence">
+      <span class="strum-muted">Activa los rasgueos y crea tu patrón desde los ajustes.</span>
+    </div>
+    <div class="strum-live-head">
+      <span class="strum-muted" id="strumLiveInfo">Sin patrón cargado · El metrónomo funciona de forma independiente.</span>
+      <button type="button" id="strumOpenEditor">⚙ AJUSTAR RASGUEO</button>
+    </div>
+    <details class="strum-config" id="strumConfig">
+      <summary>ABRIR CONSTRUCTOR Y AJUSTES DEL RASGUEO</summary>
+      <div class="strum-form">
+        <label>Compás del rasgueo
+          <select id="strumMeter">
+            <option value="2">2/4</option><option value="3">3/4</option><option value="4" selected>4/4</option>
+            <option value="5">5/4</option><option value="6">6/8</option><option value="7">7/8</option>
+            <option value="9">9/8</option><option value="12">12/8</option>
+          </select>
+        </label>
+        <label>Extensión del patrón
+          <select id="strumBars"><option value="1">1 compás</option><option value="2">2 compases</option><option value="4">4 compases</option></select>
+        </label>
+        <label>Movimiento
+          <select id="strumSymbol">
+            <option value="down">↓ Abajo</option><option value="up">↑ Arriba</option>
+            <option value="bass1">● Bajeo primario</option><option value="bass2">◉ Bajeo secundario</option>
+            <option value="mute">— Silencio</option>
+          </select>
+        </label>
+        <label>Figura / duración
+          <select id="strumDuration">
+            <option value="16">Negra</option><option value="8">Corchea</option><option value="4">Semicorchea</option>
+            <option value="32">Blanca</option><option value="64">Redonda</option>
+            <option value="12">Corchea con puntillo</option><option value="24">Negra con puntillo</option>
+            <option value="16/3">Tresillo de corcheas</option><option value="32/3">Tresillo de negras</option>
+          </select>
+        </label>
+        <label>Tiempo del compás
+          <select id="strumBeat"></select>
+        </label>
+        <label>Subdivisión
+          <select id="strumSubdivision">
+            <option value="0">En el pulso</option><option value="4">1/4 de pulso</option>
+            <option value="8">1/2 pulso</option><option value="12">3/4 de pulso</option>
+          </select>
+        </label>
+        <label>Compás de inicio
+          <select id="strumBar"><option value="1">Compás 1</option><option value="2">Compás 2</option><option value="3">Compás 3</option><option value="4">Compás 4</option></select>
+        </label>
+        <label id="strumBassStringWrap">Cuerda del bajeo
+          <select id="strumBassString">
+            <option value="6">6.ª · Mi grave</option><option value="5">5.ª · La</option><option value="4">4.ª · Re</option>
+            <option value="3">3.ª · Sol</option><option value="2">2.ª · Si</option><option value="1">1.ª · Mi agudo</option>
+          </select>
+        </label>
+        <div class="wide" style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="primary" type="button" id="strumAdd">＋ AÑADIR MOVIMIENTO</button>
+          <button type="button" id="strumSave">GUARDAR RASGUEO</button>
+        </div>
+      </div>
+      <div class="strum-live-head"><strong>Secuencia del patrón</strong><span class="strum-muted" id="strumPatternSummary">0 movimientos</span></div>
+      <div class="strum-live-sequence" id="strumEditorSequence"></div>
+      <div class="strum-list" id="strumEventList"></div>
+      <div class="strum-muted" style="margin-top:12px">Puedes editar cada movimiento sin reconstruir el patrón. Las flechas indican la dirección del rasgueo; los bajeos muestran la cuerda seleccionada.</div>
+      <div style="margin-top:18px"><strong style="font-size:12px">RASGUEOS GUARDADOS</strong><div class="strum-library" id="strumLibrary"></div></div>
+    </details>
+  </div>
+
+  <div class="ramp-grid">
+    <label>Subida automática de BPM
+      <select id="rampEnabled"><option value="off">Desactivada</option><option value="on">Activada</option></select>
+    </label>
+    <label>Aumentar BPM en
+      <input id="rampStep" type="number" min="1" max="20" value="2">
+    </label>
+    <label>Frecuencia
+      <select id="rampMode"><option value="bars">Cada compases</option><option value="seconds">Cada segundos</option></select>
+    </label>
+    <label>Intervalo
+      <input id="rampInterval" type="number" min="1" max="300" value="4">
+    </label>
+  </div>
+
 </section>
 
 <!-- CAJA DE SONIDOS -->
@@ -566,7 +703,7 @@ footer {
 
   <div class="sound-controls">
     <label>Volumen general
-      <input id="padVolume" type="range" min="0" max="100" value="80">
+      <input id="padVolume" type="range" min="0" max="100" value="95">
     </label>
     <label class="upload">
       ＋ Cargar tus propios sonidos
@@ -960,6 +1097,159 @@ function metroClick(time,index) {
   },delay);
 }
 
+
+/* =========================================
+   EDITOR Y REPRODUCTOR DE RASGUEOS
+   Usa el reloj maestro del metrónomo (16 ticks por pulso).
+========================================= */
+// El rasgueo usa un reloj independiente de 48 ticks por pulso.
+// Comparte el BPM y el instante de inicio con el metrónomo, pero no su contador.
+const STRUM_TICKS_PER_BEAT = 48;
+let strumTickPosition = 0;
+let strumNextTime = 0;
+let strumEvents = [];
+let strumEditingId = null;
+let strumSaved = [];
+let strumActiveId = null;
+let strumLastTriggered = "";
+let strumRampBars = 0;
+let strumRampInterval = null;
+const strumNames = {
+  down:"Rasgueo hacia abajo", up:"Rasgueo hacia arriba",
+  bass1:"Bajeo primario", bass2:"Bajeo secundario", mute:"Silencio"
+};
+const strumArrows = {down:"↓",up:"↑",bass1:"●",bass2:"◉",mute:"—"};
+const strumClasses = {down:"down",up:"up",bass1:"bass1",bass2:"bass2",mute:""};
+const strumDurNames = {"16":"Negra","8":"Corchea","4":"Semicorchea","32":"Blanca","64":"Redonda","12":"Corchea con puntillo","24":"Negra con puntillo","16/3":"Tresillo de corcheas","32/3":"Tresillo de negras"};
+function strumDurationTicks(v) { return Number(v.split("/")[0]) / (Number(v.split("/")[1])||1); }
+function strumMeterBeats(){return Number($("strumMeter").value);}
+function strumPatternLength(){return strumMeterBeats()*STRUM_TICKS_PER_BEAT*Number($("strumBars").value);}
+// Los valores de subdivisión existentes están expresados en dieciseisavos (0, 4, 8, 12).
+// Se convierten a la resolución de 48 ticks para ubicar corcheas, semicorcheas y tresillos.
+function strumTick(ev){return ((ev.bar-1)*strumMeterBeats()+(ev.beat-1))*STRUM_TICKS_PER_BEAT+ev.sub*3;}
+function strumUpdateBeatOptions(){
+  const n=strumMeterBeats();
+  $("strumBeat").innerHTML=Array.from({length:n},(_,i)=>`<option value="${i+1}">Tiempo ${i+1}</option>`).join("");
+}
+function strumRenderSequence(target,activeId=null){
+  const sorted=[...strumEvents].sort((a,b)=>strumTick(a)-strumTick(b));
+  $(target).innerHTML=sorted.length?sorted.map(ev=>{
+    const bass=ev.symbol==="bass1"||ev.symbol==="bass2";
+    const sub=bass?`<small>Cuerda ${ev.string}ª</small>`:`<small>${strumDurNames[ev.duration]}</small>`;
+    return `<div class="strum-step ${strumClasses[ev.symbol]} ${activeId===ev.id?"active":""}" title="${strumNames[ev.symbol]}">${strumArrows[ev.symbol]}${sub}</div>`;
+  }).join(""):'<span class="strum-muted">No hay movimientos. Abre los ajustes para crear tu rasgueo.</span>';
+}
+function strumRender(){
+  strumRenderSequence("strumLiveSequence",strumActiveId);
+  strumRenderSequence("strumEditorSequence",null);
+  $("strumPatternSummary").textContent=`${strumEvents.length} movimientos · ${$("strumMeter").value}/4 · ${$("strumBars").value} compás(es)`;
+  $("strumLiveInfo").textContent=strumEvents.length?`${strumEvents.length} movimientos listos · ${$("strumMeter").value}/4`:"Sin patrón cargado · El metrónomo funciona de forma independiente.";
+  $("strumEventList").innerHTML=[...strumEvents].sort((a,b)=>strumTick(a)-strumTick(b)).map(ev=>{
+    const bass=ev.symbol==="bass1"||ev.symbol==="bass2";
+    const pos=`Compás ${ev.bar} · tiempo ${ev.beat} · subdivisión ${ev.sub+1}`;
+    const desc=`${strumNames[ev.symbol]} · ${pos} · ${strumDurNames[ev.duration]}${bass?` · cuerda ${ev.string}ª`:""}`;
+    return `<div class="strum-row"><div class="strum-row-symbol ${strumClasses[ev.symbol]}">${strumArrows[ev.symbol]}</div><div><strong>${strumNames[ev.symbol]}</strong><small>${desc}</small></div><button type="button" data-edit-strum="${ev.id}">Editar</button><button type="button" data-delete-strum="${ev.id}">Eliminar</button></div>`;
+  }).join("")||'<div class="strum-muted">Añade movimientos desde los controles de arriba.</div>';
+  document.querySelectorAll("[data-edit-strum]").forEach(b=>b.onclick=()=>strumEdit(Number(b.dataset.editStrum)));
+  document.querySelectorAll("[data-delete-strum]").forEach(b=>b.onclick=()=>{strumEvents=strumEvents.filter(e=>e.id!==Number(b.dataset.deleteStrum));if(strumEditingId===Number(b.dataset.deleteStrum))strumEditingId=null;strumRender()});
+}
+function strumEdit(id){
+  const ev=strumEvents.find(e=>e.id===id);if(!ev)return;
+  strumEditingId=id;
+  $("strumSymbol").value=ev.symbol;$("strumDuration").value=ev.duration;
+  $("strumBar").value=String(ev.bar);$("strumBeat").value=String(ev.beat);
+  $("strumSubdivision").value=String(ev.sub);$("strumBassString").value=String(ev.string||6);
+  $("strumAdd").textContent="✓ ACTUALIZAR MOVIMIENTO";
+  $("strumConfig").open=true;
+  $("strumSymbol").focus();
+}
+function strumAddOrUpdate(){
+  const ev={
+    id:strumEditingId||Date.now()+Math.floor(Math.random()*100000),
+    symbol:$("strumSymbol").value,duration:$("strumDuration").value,
+    bar:Number($("strumBar").value),beat:Number($("strumBeat").value),
+    sub:Number($("strumSubdivision").value),string:Number($("strumBassString").value)
+  };
+  if(strumEditingId){strumEvents=strumEvents.map(x=>x.id===strumEditingId?ev:x);strumEditingId=null;$("strumAdd").textContent="＋ AÑADIR MOVIMIENTO";}
+  else strumEvents.push(ev);
+  strumRender();
+}
+$("strumAdd").onclick=strumAddOrUpdate;
+$("strumMeter").onchange=()=>{strumUpdateBeatOptions();strumRender()};
+$("strumBars").onchange=strumRender;
+$("strumSymbol").onchange=()=>{$("strumBassStringWrap").style.opacity=["bass1","bass2"].includes($("strumSymbol").value)?"1":".45"};
+$("strumOpenEditor").onclick=()=>{$("strumConfig").open=!$("strumConfig").open;if($("strumConfig").open)$("strumConfig").scrollIntoView({behavior:"smooth",block:"nearest"})};
+$("strumEnabled").onchange=()=>{if($("strumEnabled").checked&&!strumEvents.length){$("strumConfig").open=true;$("strumLiveInfo").textContent="Crea primero un patrón para escuchar los rasgueos."}else $("strumLiveInfo").textContent=$("strumEnabled").checked?"Rasgueos activados":"Rasgueos desactivados"};
+$("strumSave").onclick=()=>{
+  if(!strumEvents.length){alert("Añade al menos un movimiento antes de guardar.");return}
+  const name=prompt("Nombre para guardar este rasgueo:",`Rasgueo ${strumSaved.length+1}`);
+  if(!name)return;
+  strumSaved.push({id:Date.now(),name,events:JSON.parse(JSON.stringify(strumEvents)),meter:$("strumMeter").value,bars:$("strumBars").value});
+  localStorage.setItem("rhythmStudioStrums",JSON.stringify(strumSaved));strumRenderLibrary();
+};
+function strumRenderLibrary(){
+  $("strumLibrary").innerHTML=strumSaved.map(p=>`<div class="strum-library-row"><span><strong>${p.name}</strong><br><small class="strum-muted">${p.events.length} movimientos · ${p.meter}/4</small></span><span style="display:flex;gap:6px"><button data-load-strum="${p.id}">Cargar / editar</button><button data-remove-strum="${p.id}">×</button></span></div>`).join("")||'<div class="strum-muted">Todavía no has guardado rasgueos.</div>';
+  document.querySelectorAll("[data-load-strum]").forEach(b=>b.onclick=()=>{const p=strumSaved.find(x=>x.id===Number(b.dataset.loadStrum));if(!p)return;strumEvents=JSON.parse(JSON.stringify(p.events));$("strumMeter").value=p.meter;$("strumBars").value=p.bars;strumUpdateBeatOptions();strumRender();$("strumConfig").open=true;});
+  document.querySelectorAll("[data-remove-strum]").forEach(b=>b.onclick=()=>{strumSaved=strumSaved.filter(x=>x.id!==Number(b.dataset.removeStrum));localStorage.setItem("rhythmStudioStrums",JSON.stringify(strumSaved));strumRenderLibrary()});
+}
+try{strumSaved=JSON.parse(localStorage.getItem("rhythmStudioStrums")||"[]")}catch(e){strumSaved=[]}
+strumUpdateBeatOptions();strumRender();strumRenderLibrary();
+$("strumBassStringWrap").style.opacity=".45";
+function playStrumSound(ev,time){
+  if(ev.symbol==="mute")return;
+  if(ev.symbol==="bass1"||ev.symbol==="bass2"){
+    const notes={1:330,2:247,3:196,4:147,5:110,6:82};
+    const freq=notes[Number(ev.string)]||82;
+    playTone(freq,time,.20,"triangle",.65,padGain);
+    return;
+  }
+  // Cada evento tiene su propio disparo: dos flechas ↓ seguidas se ejecutan dos veces.
+  const freqs=[196,247,294,370,440,587];
+  const ordered=ev.symbol==="down"?freqs:[...freqs].reverse();
+  ordered.forEach((f,i)=>playTone(f,time+i*.007,.12,"triangle",.17,padGain));
+}
+function playStrumScheduledEvents(tick,time){
+  if(!$("strumEnabled").checked||!strumEvents.length)return;
+  const len=strumPatternLength();if(!len)return;
+  const position=tick%len;
+  const matches=strumEvents.filter(ev=>strumTick(ev)===position);
+  matches.forEach(ev=>{
+    playStrumSound(ev,time);
+    strumActiveId=ev.id;
+    strumRenderSequence("strumLiveSequence",ev.id);
+    const delay=Math.max(0,(time-audio.currentTime)*1000);
+    setTimeout(()=>{if(strumActiveId===ev.id){strumActiveId=null;strumRenderSequence("strumLiveSequence",null)}},Math.max(100,delay+100));
+  });
+}
+
+// Reloj propio del rasgueo: mantiene el mismo BPM y arranque, pero su resolución
+// y su posición avanzan independientemente del pulso visual/sonoro del metrónomo.
+function schedulerStrumClock(){
+  if(!$('strumEnabled').checked||!strumEvents.length)return;
+  const len=strumPatternLength();
+  if(!len)return;
+  while(strumNextTime<audio.currentTime+.12){
+    playStrumScheduledEvents(strumTickPosition%len,strumNextTime);
+    strumNextTime+=60/bpm/STRUM_TICKS_PER_BEAT;
+    strumTickPosition++;
+  }
+}
+
+/* AUMENTO PROGRESIVO DEL TEMPO: por compases o por segundos */
+function strumRampStep(){
+  if($("rampEnabled").value!=="on")return;
+  const amount=Math.max(1,Math.min(20,Number($("rampStep").value)||1));
+  setBpm(Math.min(300,bpm+amount));
+}
+$("rampEnabled").onchange=()=>{
+  clearInterval(strumRampInterval);strumRampInterval=null;strumRampBars=0;
+  if($("rampEnabled").value==="on"&&$("rampMode").value==="seconds"){
+    strumRampInterval=setInterval(strumRampStep,Math.max(1,Number($("rampInterval").value)||1)*1000);
+  }
+};
+$("rampMode").onchange=()=>{$("rampEnabled").dispatchEvent(new Event("change"))};
+$("rampInterval").onchange=()=>{if($("rampEnabled").value==="on"&&$("rampMode").value==="seconds")$("rampEnabled").dispatchEvent(new Event("change"))};
+
 function schedulerTick() {
   if(!running) return;
 
@@ -975,12 +1265,21 @@ function schedulerTick() {
       metroClick(nextTime,beat);
     }
 
-    // El secuenciador comparte este mismo reloj.
+    // El secuenciador conserva el reloj original del metrónomo.
     playScheduledEvents(tickPosition,nextTime);
+
+    // Subida automática de tempo al comenzar cada compás.
+    if(tickInBar===0 && tickPosition>0 && $("rampEnabled").value==="on" && $("rampMode").value==="bars"){
+      strumRampBars++;
+      if(strumRampBars>=Math.max(1,Number($("rampInterval").value)||1)){strumRampBars=0;strumRampStep();}
+    }
 
     nextTime+=tickDuration;
     tickPosition++;
   }
+
+  // El rasgueo se procesa con su propio contador de subdivisiones.
+  schedulerStrumClock();
 }
 
 function startTransport() {
@@ -990,6 +1289,8 @@ function startTransport() {
   running=true;
   tickPosition=0;
   nextTime=audio.currentTime+.05;
+  strumTickPosition=0;
+  strumNextTime=nextTime;
 
   scheduler=setInterval(schedulerTick,20);
 
@@ -1022,11 +1323,11 @@ renderAccents();
    CAJA DE SONIDOS
 ========================================= */
 
-let padVolume=.8;
+let padVolume=.95;
 
 $("padVolume").addEventListener("input",e=>{
   padVolume=Number(e.target.value)/100;
-  if(padGain)padGain.gain.value=padVolume;
+  if(padGain)padGain.gain.setTargetAtTime(padVolume,audio.currentTime,.015);
 });
 
 document.querySelectorAll("[data-sound]").forEach(button=>{
