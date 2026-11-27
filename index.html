@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,7 +19,7 @@
   --accent:#c3f36b;
 }
 
-* {box-sizing:border-box}
+*, *::before, *::after {box-sizing:border-box}
 
 html {scroll-behavior:smooth;scroll-padding-top:90px}
 
@@ -168,25 +167,92 @@ label {
   font-weight:600;
 }
 
-/* METRÓNOMO */
+/* METRÓNOMO UNIFICADO */
 
-.metro-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-.metro-card {
+.metro-unified {
   background:var(--panel2);
   border:1px solid var(--line);
-  padding:25px;
+  border-radius:18px;
+  padding:clamp(18px,2.5vw,26px);
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.metro-stage {
+  background:#151c28;
+  border:1px solid var(--line);
   border-radius:16px;
+  padding:24px 20px;
+  text-align:center;
+}
+
+.metro-transport {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.metro-bpm-box {
+  background:#151c28;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+}
+
+.metro-bpm-label {
+  font:10px 'DM Mono',monospace;
+  color:var(--muted);
+  letter-spacing:1.5px;
+  text-align:center;
+  margin-bottom:6px;
+}
+
+.metro-presets-box {
+  background:#151c28;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+}
+
+.metro-presets-row {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-top:12px;
+}
+
+.tap-btn {
+  padding:15px 26px;
+  font-size:14px;
+  letter-spacing:1px;
+  border-radius:12px;
+  min-height:48px;
+}
+
+.metro-subblock {
+  background:#151c28;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+}
+
+.metro-subblock-title {
+  font:11px 'DM Mono',monospace;
+  color:var(--accent);
+  letter-spacing:1.2px;
+  margin-bottom:10px;
 }
 
 .bpm {
   font:80px 'DM Mono',monospace;
   color:var(--accent);
   text-align:center;
+  line-height:1.05;
 }
 
 .bpm small {
@@ -198,7 +264,7 @@ label {
   display:flex;
   justify-content:center;
   gap:12px;
-  margin:15px;
+  margin:14px 0 4px;
 }
 
 .beat-circle {
@@ -225,7 +291,7 @@ label {
   display:flex;
   justify-content:center;
   gap:12px;
-  margin:20px;
+  margin:18px 0 8px;
 }
 
 .dot {
@@ -244,7 +310,6 @@ label {
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
-  margin-top:20px;
 }
 
 .controls label {min-width:0}
@@ -253,7 +318,7 @@ label {
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  margin-top:12px;
+  margin-top:8px;
 }
 
 .accent-buttons button.active {
@@ -446,7 +511,7 @@ footer {
 }
 
 @media(max-width:750px) {
-  .metro-grid,.timer-grid {grid-template-columns:1fr}
+  .timer-grid {grid-template-columns:1fr}
   .controls {grid-template-columns:1fr 1fr}
   .pad-grid {grid-template-columns:repeat(2,1fr)}
   .hero {padding-top:40px}
@@ -499,11 +564,31 @@ footer {
 .strum-library-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#202938}
 .strum-library-row span{font-size:12px}
 .strum-muted{font-size:11px;color:var(--muted)}
-.ramp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px;padding:15px;background:var(--panel2);border:1px solid var(--line);border-radius:14px}
+.ramp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:8px}
 .ramp-grid label{min-width:0}
 .ramp-grid input,.ramp-grid select{background:#101722;color:white;border:1px solid var(--line);border-radius:9px;padding:9px;width:100%}
 @media(max-width:750px){.strum-form,.ramp-grid{grid-template-columns:1fr 1fr}.strum-row{grid-template-columns:35px minmax(0,1fr) auto auto}.strum-step{min-width:53px}}
 @media(max-width:430px){.strum-form,.ramp-grid{grid-template-columns:1fr}.strum-row{grid-template-columns:32px minmax(0,1fr) auto auto}.strum-row button{padding:6px}}
+
+/* CONSTRUCTOR AMPLIADO Y MEJORAS DE USABILIDAD */
+.sequencer-toolbar{display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:12px;align-items:end;background:var(--panel2);padding:18px;border-radius:14px}
+.sequencer-toolbar label{min-width:0}.seq-pagebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:16px 0}
+.seq-pagebar strong{font:12px 'DM Mono',monospace;color:var(--accent)}.seq-jump{display:flex;flex-direction:row;align-items:center;gap:7px}.seq-jump input{width:75px}
+.seq-legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin:12px 0}
+.seq-scroll{overflow:auto;background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:8px;max-height:650px}
+.seq-head,.seq-track{display:grid;grid-template-columns:280px repeat(var(--visible-steps),minmax(18px,1fr));gap:1px;min-width:900px;margin-bottom:2px;align-items:stretch}
+.seq-head{position:sticky;top:0;z-index:3;background:var(--panel2);padding-bottom:5px}
+.seq-track-label{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;position:sticky;left:0;background:#151c28;padding:7px;border-radius:7px;z-index:2}
+.seq-track-label strong{font:11px 'DM Mono',monospace}.seq-track-label button{padding:6px 8px;font-size:10px}.seq-track-label button.on{background:var(--accent);color:#17200b;border-color:var(--accent)}
+.seq-cell{height:31px;min-width:0;padding:0;border-radius:2px;background:#263142;border:1px solid #39465a;position:relative}
+.seq-cell.bar-start{border-left:2px solid #8a9aaf}.seq-cell.beat-start{border-left:1px solid #64748b}.seq-cell.active{background:var(--accent);border-color:var(--accent)}.seq-cell.playhead{outline:2px solid #fff;outline-offset:1px;z-index:1}
+.seq-head-cell{font:9px 'DM Mono',monospace;text-align:center;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--line)}.seq-head-cell.bar-label{color:var(--accent);border-left:2px solid #8a9aaf}
+.seq-record{display:flex;gap:5px;align-items:center}.seq-record button{padding:6px 8px;font-size:10px}.seq-record button.recording{background:#a83245;color:white;border-color:#ff7187}
+.seq-volume{width:58px!important;padding:0!important;accent-color:var(--accent)}.seq-sound-select{max-width:125px;min-width:85px;background:#111722;color:var(--text);border:1px solid var(--line);border-radius:7px;padding:5px;font-size:10px}.seq-track-label{grid-template-columns:66px auto auto minmax(0,1fr);gap:4px}.seq-track-tools{display:flex;align-items:center;gap:4px;flex-wrap:wrap}.seq-track-tools button{padding:5px 6px!important}.seq-bank-actions{display:flex;gap:6px;align-items:center}.seq-bank-actions button{font-size:9px!important}.saved-patterns{margin-top:18px}.saved-patterns>strong{font-size:12px}.saved-patterns #savedSeqPatterns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.strum-live .strum-step{user-select:none}
+@media(max-width:750px){.sequencer-toolbar{grid-template-columns:1fr 1fr}.seq-head,.seq-track{grid-template-columns:180px repeat(var(--visible-steps),minmax(17px,1fr))}}
+@media(max-width:480px){.sequencer-toolbar{grid-template-columns:1fr}.seq-pagebar{justify-content:center}.seq-jump{width:100%;justify-content:center}.seq-track-label{grid-template-columns:1fr}.seq-track-tools{gap:3px}.seq-sound-select{max-width:100%;width:100%}}
+.sticky-player{position:fixed;right:18px;bottom:18px;z-index:50;display:none;align-items:center;gap:10px;padding:10px 14px;background:#151c28f2;border:1px solid #52633c;border-radius:14px;box-shadow:0 8px 30px #0008;backdrop-filter:blur(10px)}.sticky-player.visible{display:flex}.sticky-player button{background:var(--accent);color:#17200b;border:0;border-radius:9px;padding:10px 14px;font-weight:800}.sticky-player span{font:11px 'DM Mono',monospace;color:var(--muted)}
 
 </style>
 </head>
@@ -514,9 +599,8 @@ footer {
   <div class="logo">RHYTHM <span>STUDIO ♫</span></div>
   <nav>
     <a href="#metronomo">Metrónomo + rasgueos</a>
-    <a href="#temporizador">Temporizador</a>
     <a href="#secuenciador">Constructor de ritmos</a>
-    <a href="#sonidos">Caja de sonidos</a>
+    <a href="#temporizador">Temporizador</a>
   </nav>
   <button id="enableAudio">Activar audio</button>
 </header>
@@ -529,7 +613,7 @@ footer {
   <p>Practica, experimenta y desarrolla tu sentido musical.</p>
 </section>
 
-<!-- METRÓNOMO -->
+<!-- METRÓNOMO UNIFICADO -->
 
 <section class="panel" id="metronomo">
   <div class="heading">
@@ -537,74 +621,112 @@ footer {
     <span class="tag" id="status">DETENIDO</span>
   </div>
 
-  <div class="metro-grid">
-    <div class="metro-card">
-      <div class="bpm"><span id="bpm">120</span><small> BPM</small></div>
-      <input id="bpmRange" type="range" min="30" max="300" value="120">
-
-      <div class="tempo-controls">
-        <button id="minus">−</button>
-        <button id="tap">TAP TEMPO</button>
-        <button id="plus">+</button>
-      </div>
-
-      <div class="choices">
-        <button data-bpm="60">60</button>
-        <button data-bpm="80">80</button>
-        <button data-bpm="100">100</button>
-        <button data-bpm="120">120</button>
-        <button data-bpm="140">140</button>
-        <button data-bpm="160">160</button>
-      </div>
-    </div>
-
-    <div class="metro-card" style="text-align:center">
+  <div class="metro-unified">
+    <!-- 1. CONTADOR DE TIEMPOS -->
+    <div class="metro-stage">
+      <div class="metro-bpm-label">CONTADOR DE TIEMPOS</div>
       <div class="beat-circle" id="beatCircle">1</div>
       <div class="dots" id="dots"></div>
-      <p class="muted" id="beatText">Tiempo 1</p>
-      <button class="primary" id="start">▶ INICIAR</button>
-      <button id="stop">■ DETENER</button>
+      <p class="muted" id="beatText" style="margin:6px 0 0">Tiempo 1</p>
+      <div class="metro-transport">
+        <button class="primary" id="toggleMetro" type="button">▶ INICIAR</button>
+      </div>
+    </div>
+
+    <!-- 2. BPM DEBAJO DEL CONTADOR DE TIEMPOS -->
+    <div class="metro-bpm-box">
+      <div class="metro-bpm-label">BPM ACTUAL</div>
+      <div class="bpm"><span id="bpm">120</span><small> BPM</small></div>
+      <input id="bpmRange" type="range" min="30" max="300" value="120" style="margin-top:12px">
+      <div class="tempo-controls">
+        <button id="minus" type="button">−</button>
+        <button id="plus" type="button">+</button>
+      </div>
+    </div>
+
+    <!-- 3. BPM RECOMENDADOS + TAP TEMPO DEBAJO DE LOS BPM -->
+    <div class="metro-presets-box">
+      <div class="metro-bpm-label" style="text-align:left;margin-bottom:0">BPM RECOMENDADOS Y TAP TEMPO</div>
+      <div class="metro-presets-row">
+        <div class="choices">
+          <button type="button" data-bpm="60">60</button>
+          <button type="button" data-bpm="80">80</button>
+          <button type="button" data-bpm="100">100</button>
+          <button type="button" data-bpm="120">120</button>
+          <button type="button" data-bpm="140">140</button>
+          <button type="button" data-bpm="160">160</button>
+        </div>
+        <button type="button" class="primary tap-btn" id="tap">TAP TEMPO</button>
+      </div>
+    </div>
+
+    <!-- 4. COMPÁS, SONIDO Y VOLUMEN DEL METRÓNOMO -->
+    <div class="metro-subblock">
+      <div class="metro-subblock-title">COMPÁS Y SONIDO DEL METRÓNOMO</div>
+      <div class="controls" style="margin-top:0">
+        <label>Compás
+          <select id="meter">
+            <option value="2">2/4</option>
+            <option value="3">3/4</option>
+            <option value="4" selected>4/4</option>
+            <option value="5">5/4</option>
+            <option value="6">6/8</option>
+            <option value="7">7/8</option>
+            <option value="9">9/8</option>
+            <option value="12">12/8</option>
+          </select>
+        </label>
+
+        <label>Sonido del metrónomo
+          <select id="metroSound">
+            <option value="wood">Madera</option>
+            <option value="click">Clic</option>
+            <option value="beep">Pitido</option>
+            <option value="cowbell">Cencerro</option>
+          </select>
+        </label>
+
+        <label>Volumen del metrónomo
+          <input id="metroVolume" type="range" min="0" max="100" value="70">
+        </label>
+      </div>
+    </div>
+
+    <!-- 5. ACENTOS POR COMPÁS -->
+    <div class="metro-subblock">
+      <div class="metro-subblock-title">ACENTOS DEL COMPÁS</div>
+      <p class="muted" style="margin:0">Pulsa los tiempos que quieras acentuar dentro del compás.</p>
+      <div class="accent-buttons" id="accents"></div>
+    </div>
+
+    <!-- 6. SUBIDA AUTOMÁTICA DE BPM -->
+    <div class="metro-subblock">
+      <div class="metro-subblock-title">SUBIDA AUTOMÁTICA DE BPM</div>
+      <div class="ramp-grid">
+        <label>Subida automática de BPM
+          <select id="rampEnabled"><option value="off">Desactivada</option><option value="on">Activada</option></select>
+        </label>
+        <label>Aumentar BPM en
+          <input id="rampStep" type="number" min="1" max="20" value="2">
+        </label>
+        <label>Frecuencia
+          <select id="rampMode"><option value="bars">Cada compases</option><option value="seconds">Cada segundos</option></select>
+        </label>
+        <label>Intervalo
+          <input id="rampInterval" type="number" min="1" max="300" value="4">
+        </label>
+      </div>
     </div>
   </div>
 
-  <div class="controls">
-    <label>Compás
-      <select id="meter">
-        <option value="2">2/4</option>
-        <option value="3">3/4</option>
-        <option value="4" selected>4/4</option>
-        <option value="5">5/4</option>
-        <option value="6">6/8</option>
-        <option value="7">7/8</option>
-        <option value="9">9/8</option>
-        <option value="12">12/8</option>
-      </select>
-    </label>
-
-    <label>Sonido
-      <select id="metroSound">
-        <option value="wood">Madera</option>
-        <option value="click">Clic</option>
-        <option value="beep">Pitido</option>
-        <option value="cowbell">Cencerro</option>
-      </select>
-    </label>
-
-    <label>Volumen
-      <input id="metroVolume" type="range" min="0" max="100" value="70">
-    </label>
-  </div>
-
-  <p class="muted">Acentos del compás: pulsa los tiempos que quieras acentuar.</p>
-  <div class="accent-buttons" id="accents"></div>
-
+  <!-- RASGUEOS (MANTENIDOS SEGÚN PRIMERA VERSIÓN) -->
   <div class="strum-live" id="strumLive">
     <div class="strum-live-head">
       <div>
         <div class="strum-live-title">RASGUEO EN VIVO</div>
         <div class="muted" style="font-size:12px;margin-top:4px">Sigue las flechas y los bajeos al mismo tiempo que el metrónomo.</div>
       </div>
-      <label class="strum-toggle"><input type="checkbox" id="strumEnabled"> Activar rasgueos</label>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><label class="strum-toggle"><input type="checkbox" id="strumEnabled"> Activar rasgueos</label><label style="min-width:150px">Volumen rasgueos<input id="strumVolume" type="range" min="0" max="100" value="65"></label></div>
     </div>
     <div class="strum-live-sequence" id="strumLiveSequence">
       <span class="strum-muted">Activa los rasgueos y crea tu patrón desde los ajustes.</span>
@@ -646,8 +768,8 @@ footer {
         </label>
         <label>Subdivisión
           <select id="strumSubdivision">
-            <option value="0">En el pulso</option><option value="4">1/4 de pulso</option>
-            <option value="8">1/2 pulso</option><option value="12">3/4 de pulso</option>
+            <option value="0">Inicio del pulso</option><option value="12">1/4 de pulso</option>
+            <option value="24">1/2 pulso</option><option value="36">3/4 de pulso</option>
           </select>
         </label>
         <label>Compás de inicio
@@ -672,1006 +794,198 @@ footer {
     </details>
   </div>
 
-  <div class="ramp-grid">
-    <label>Subida automática de BPM
-      <select id="rampEnabled"><option value="off">Desactivada</option><option value="on">Activada</option></select>
-    </label>
-    <label>Aumentar BPM en
-      <input id="rampStep" type="number" min="1" max="20" value="2">
-    </label>
-    <label>Frecuencia
-      <select id="rampMode"><option value="bars">Cada compases</option><option value="seconds">Cada segundos</option></select>
-    </label>
-    <label>Intervalo
-      <input id="rampInterval" type="number" min="1" max="300" value="4">
-    </label>
-  </div>
-
 </section>
 
-<!-- CAJA DE SONIDOS -->
-
-<section class="panel" id="sonidos">
-  <div class="heading">
-    <div>
-      <div class="eyebrow">02 / SONIDOS MANUALES</div>
-      <h2>Caja de sonidos</h2>
-      <p class="muted">Pulsa los pads para tocar. También puedes usar las teclas indicadas.</p>
-    </div>
-    <span class="tag">SOUNDBOARD</span>
-  </div>
-
-  <div class="sound-controls">
-    <label>Volumen general
-      <input id="padVolume" type="range" min="0" max="100" value="95">
-    </label>
-    <label class="upload">
-      ＋ Cargar tus propios sonidos
-      <input id="upload" type="file" accept="audio/*" multiple hidden>
-    </label>
-  </div>
-
-  <h3>PERCUSIÓN</h3>
-  <div class="pad-grid">
-    <button class="pad" data-sound="kick"><span>🥁</span><b>BOMBO</b><small>Tecla K</small></button>
-    <button class="pad" data-sound="snare"><span>▰</span><b>CAJA</b><small>Tecla S</small></button>
-    <button class="pad" data-sound="hat"><span>✳</span><b>HI-HAT</b><small>Tecla H</small></button>
-    <button class="pad" data-sound="clap"><span>👏</span><b>PALMAS</b><small>Tecla C</small></button>
-    <button class="pad" data-sound="cowbell"><span>🔔</span><b>CENCERRO</b><small>Tecla B</small></button>
-    <button class="pad" data-sound="tom"><span>◉</span><b>TOM</b><small>Tecla T</small></button>
-    <button class="pad" data-sound="shaker"><span>〰</span><b>SHAKER</b><small>Tecla J</small></button>
-    <button class="pad" data-sound="rim"><span>⌁</span><b>RIMSHOT</b><small>Tecla R</small></button>
-  </div>
-
-  <h3>NOTAS MUSICALES</h3>
-  <div class="pad-grid tones">
-    <button class="pad" data-tone="261.63"><span>♪</span><b>DO</b><small>C4</small></button>
-    <button class="pad" data-tone="293.66"><span>♪</span><b>RE</b><small>D4</small></button>
-    <button class="pad" data-tone="329.63"><span>♪</span><b>MI</b><small>E4</small></button>
-    <button class="pad" data-tone="349.23"><span>♪</span><b>FA</b><small>F4</small></button>
-    <button class="pad" data-tone="392"><span>♪</span><b>SOL</b><small>G4</small></button>
-    <button class="pad" data-tone="440"><span>♪</span><b>LA</b><small>A4</small></button>
-    <button class="pad" data-tone="493.88"><span>♪</span><b>SI</b><small>B4</small></button>
-    <button class="pad" data-tone="523.25"><span>♪</span><b>DO</b><small>C5</small></button>
-  </div>
-
-  <h3>TUS SONIDOS</h3>
-  <div class="pad-grid" id="customPads"></div>
-</section>
-
-<!-- SECUENCIADOR -->
-
+<!-- CONSTRUCTOR DE RITMOS AMPLIADO -->
 <section class="panel" id="secuenciador">
   <div class="heading">
-    <div>
-      <div class="eyebrow">03 / CREACIÓN RÍTMICA</div>
-      <h2>Constructor de ritmos</h2>
-      <p class="muted">Selecciona una figura, elige una pista y dibuja tu patrón.</p>
-    </div>
-    <span class="tag">SEQUENCER</span>
+    <div><div class="eyebrow">02 / CREACIÓN RÍTMICA</div><h2>Constructor de ritmos</h2>
+      <p class="muted">Seis pistas, grabación de sonidos propios y hasta 64 compases. Los audios grabados se guardan en este navegador.</p></div>
+    <span class="tag">HASTA 64 COMPASES · 6 PISTAS</span>
   </div>
-
-  <div class="toolbar">
-    <label>Figura musical
-      <select id="figure">
-        <option value="1">Semifusa</option>
-        <option value="2">Fusa</option>
-        <option value="4">Semicorchea</option>
-        <option value="8">Corchea</option>
-        <option value="16" selected>Negra</option>
-        <option value="32">Blanca</option>
-        <option value="64">Redonda</option>
-        <option value="12">Corchea con puntillo</option>
-        <option value="24">Negra con puntillo</option>
-        <option value="5.333333">Tresillo de corcheas</option>
-      </select>
-    </label>
-
-    <label>Extensión
-      <select id="bars">
-        <option value="1">1 compás</option>
-        <option value="2" selected>2 compases</option>
-        <option value="4">4 compases</option>
-      </select>
-    </label>
-
-    <button id="clear">Limpiar patrón</button>
-    <button class="primary" id="playPattern">▶ REPRODUCIR</button>
-    <button id="savePattern">Guardar patrón</button>
+  <div class="sequencer-toolbar">
+    <label>Número de compases <input id="totalBarsInput" type="number" min="1" max="64" step="1" value="16"></label>
+    <label>Volumen del constructor <input id="seqVolume" type="range" min="0" max="100" value="85"></label>
+    <label>Compases por página <select id="pageBars"><option value="1">1 compás</option><option value="2">2 compases</option><option value="4" selected>4 compases</option><option value="8">8 compases</option></select></label>
+    <label>Compás <select id="seqMeter"><option value="2">2/4</option><option value="3">3/4</option><option value="4" selected>4/4</option><option value="5">5/4</option><option value="6">6/8</option><option value="7">7/8</option><option value="9">9/8</option><option value="12">12/8</option></select></label>
+    <button id="seqPlay" class="primary" type="button">▶ REPRODUCIR</button>
+    <button id="seqStop" type="button">■ DETENER</button>
+    <button id="seqClear" type="button">LIMPIAR PATRÓN</button>
+    <button id="seqSave" type="button">GUARDAR</button>
   </div>
-
-  <div class="legend">
-    <span>𝅝 Redonda</span>
-    <span>𝅗𝅥 Blanca</span>
-    <span>♩ Negra</span>
-    <span>♪ Corchea</span>
-    <span>𝅘𝅥𝅯 Semicorchea</span>
-    <span>𝅘𝅥𝅰 Fusa</span>
-    <span>𝅘𝅥𝅱 Semifusa</span>
-    <span>³ Tresillo</span>
-    <span>Celda vacía = silencio</span>
+  <div class="seq-pagebar">
+    <button id="pagePrev" type="button">← Anterior</button><strong id="pageLabel">Compases 1–4 de 64</strong><button id="pageNext" type="button">Siguiente →</button>
+    <label class="seq-jump">Ir al compás <input id="jumpBar" type="number" min="1" max="16" value="1"><button id="jumpGo" type="button">IR</button></label>
   </div>
-
-  <div class="scroll-grid">
-    <div id="sequencer"></div>
-  </div>
-
-  <p class="muted" id="patternInfo"></p>
-  <p class="muted">La cuadrícula representa 16 subdivisiones por pulso. Las figuras más largas ocupan las posiciones siguientes. El tresillo utiliza posiciones fraccionarias.</p>
+  <div class="seq-legend"><span>● Celda activa</span><span>Las pistas se pueden silenciar o dejar en solo.</span><span>La línea de reproducción sigue automáticamente el cursor.</span></div>
+  <div class="seq-scroll"><div id="seqGrid"></div></div>
+  <div class="muted" id="seqStatus" style="margin-top:12px">Listo para crear. Cada compás muestra sus subdivisiones de semicorchea.</div>
+  <div class="saved-patterns"><strong>Patrones guardados</strong><div id="savedSeqPatterns"></div></div>
 </section>
 
 <!-- TEMPORIZADOR -->
-
 <section class="panel" id="temporizador">
-  <div class="heading">
-    <div>
-      <div class="eyebrow">04 / ENTRENAMIENTO</div>
-      <h2>Temporizador de práctica</h2>
-      <p class="muted">Organiza tu tiempo y mantén la constancia.</p>
-    </div>
-    <span class="tag">FOCUS TIME</span>
-  </div>
-
+  <div class="heading"><div><div class="eyebrow">03 / ENTRENAMIENTO</div><h2>Temporizador de práctica</h2><p class="muted">Organiza tu tiempo y mantén la constancia.</p></div><span class="tag">FOCUS TIME</span></div>
   <div class="timer-grid">
-    <div class="clock">
-      <strong id="timerDisplay">60:00</strong>
-      <span id="timerStatus">LISTO PARA PRACTICAR</span>
-    </div>
-
+    <div class="clock"><strong id="timerDisplay">60:00</strong><span id="timerStatus">LISTO PARA PRACTICAR</span></div>
     <div>
       <label>Duración de la sesión</label>
-      <div class="choices" id="minuteChoices">
-        <button data-min="5">5 min</button>
-        <button data-min="10">10 min</button>
-        <button data-min="15">15 min</button>
-        <button data-min="30">30 min</button>
-        <button data-min="45">45 min</button>
-        <button data-min="60" class="selected">60 min</button>
-      </div>
-
-      <br>
-
-      <label>Tiempo personalizado (minutos)
-        <input type="number" id="customMinutes" min="1" max="240" value="60">
-      </label>
-
-      <br>
-
-      <button class="primary" id="timerStart">▶ COMENZAR</button>
-      <button id="timerPause">PAUSAR</button>
-      <button id="timerReset">REINICIAR</button>
-
-      <br><br>
-      <label style="flex-direction:row;align-items:center">
-        <input type="checkbox" id="alarm" checked>
-        Aviso sonoro al finalizar
-      </label>
+      <div class="choices" id="minuteChoices"><button data-min="5">5 min</button><button data-min="10">10 min</button><button data-min="15">15 min</button><button data-min="30">30 min</button><button data-min="45">45 min</button><button data-min="60" class="selected">60 min</button></div><br>
+      <label>Tiempo personalizado (minutos)<input type="number" id="customMinutes" min="1" max="240" value="60"></label><br>
+      <button class="primary" id="timerStart">▶ COMENZAR</button> <button id="timerPause">PAUSAR</button> <button id="timerReset">REINICIAR</button><br><br>
+      <label style="flex-direction:row;align-items:center"><input type="checkbox" id="alarm" checked> Aviso sonoro al finalizar</label>
+      <label style="margin-top:14px">Volumen de alarma <input id="timerVolume" type="range" min="0" max="100" value="75"></label>
+      <button id="alarmStop" type="button" style="display:none;margin-top:12px">DETENER ALARMA</button>
     </div>
   </div>
 </section>
 
 </main>
 
+<div class="sticky-player" id="stickyPlayer"><button type="button" id="stickyPlay">▶ INICIAR</button><span id="stickyBpm">120 BPM</span></div>
+
 <footer>RHYTHM STUDIO ♫ · PRACTICA CON INTENCIÓN</footer>
 
 <script>
-/* =========================================
-   AUDIO
-========================================= */
+/* =========================================================
+   RHYTHM STUDIO · AUDIO ENGINE MODULAR
+   Cuatro buses independientes + reloj maestro compartido.
+========================================================= */
+const $ = id => document.getElementById(id);
+const STORAGE = {metro:"rhythm_studio_metronome_v1",seq:"rhythm_studio_seq_v2",strum:"rhythm_studio_strum_v2"};
+let audio=null, masterBus=null;
+const buses={metro:null,sequencer:null,strum:null,timer:null};
+let bpm=120, running=false, nextTime=0, tickPosition=0, scheduler=null;
+let accents=[], barsCounted=0, lastRampSecTime=0;
+const TICKS_PER_BEAT=48, LOOKAHEAD=.14, SCHEDULER_MS=25;
 
-let audio = null;
-let master = null;
-let metroGain = null;
-let padGain = null;
-
-function initAudio() {
-  if (!audio) {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) {
-      alert("Tu navegador no soporta Web Audio API.");
-      return false;
-    }
-
-    audio = new AudioContext();
-
-    master = audio.createGain();
-    metroGain = audio.createGain();
-    padGain = audio.createGain();
-
-    master.connect(audio.destination);
-    metroGain.connect(master);
-    padGain.connect(master);
+function initAudio(){
+  if(!audio){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC){alert("Tu navegador no soporta Web Audio API.");return false;}
+    audio=new AC(); masterBus=audio.createGain(); masterBus.gain.value=.9; masterBus.connect(audio.destination);
+    for(const key of Object.keys(buses)){buses[key]=audio.createGain();buses[key].gain.value=1;buses[key].connect(masterBus);}
+    buses.metro.gain.value=Number($('metroVolume')?.value??70)/100;
+    buses.sequencer.gain.value=Number($('seqVolume')?.value??85)/100;
+    buses.strum.gain.value=Number($('strumVolume')?.value??65)/100;
+    buses.timer.gain.value=Number($('timerVolume')?.value??75)/100;
   }
-
-  if (audio.state === "suspended") audio.resume();
-
-  document.getElementById("enableAudio").textContent = "Audio activado";
+  if(audio.state==="suspended") audio.resume();
+  if(!window.__rhythmSamplesHydrated){window.__rhythmSamplesHydrated=true;hydrateSamples();}
+  if($("enableAudio")) $("enableAudio").textContent="Audio activado";
   return true;
 }
-
-function playTone(freq,time,duration,type,gain,destination) {
-  if (!audio) return;
-
-  const osc = audio.createOscillator();
-  const amp = audio.createGain();
-
-  osc.type = type || "sine";
-  osc.frequency.setValueAtTime(freq,time);
-
-  amp.gain.setValueAtTime(.0001,time);
-  amp.gain.exponentialRampToValueAtTime(Math.max(.0001,gain),time+.008);
-  amp.gain.exponentialRampToValueAtTime(.0001,time+duration);
-
-  osc.connect(amp);
-  amp.connect(destination);
-
-  osc.start(time);
-  osc.stop(time+duration+.02);
+function setBusVolume(key,control){if(!buses[key]||!audio)return;const value=Number($(control)?.value??100)/100;buses[key].gain.setTargetAtTime(value,audio.currentTime,.015);}
+function tone(freq,time,duration,type,level,destination){
+  if(!audio||!destination)return;const osc=audio.createOscillator(),amp=audio.createGain();osc.type=type||"sine";osc.frequency.setValueAtTime(freq,time);amp.gain.setValueAtTime(.0001,time);amp.gain.exponentialRampToValueAtTime(Math.max(.0001,level),time+.006);amp.gain.exponentialRampToValueAtTime(.0001,time+duration);osc.connect(amp);amp.connect(destination);osc.start(time);osc.stop(time+duration+.025);
 }
-
-function playNoise(time,duration,gain,filter=1000) {
-  if (!audio) return;
-
-  const buffer = audio.createBuffer(
-    1,
-    Math.floor(audio.sampleRate*duration),
-    audio.sampleRate
-  );
-
-  const data = buffer.getChannelData(0);
-
-  for (let i=0;i<data.length;i++) {
-    data[i] = Math.random()*2-1;
-  }
-
-  const source = audio.createBufferSource();
-  const filterNode = audio.createBiquadFilter();
-  const amp = audio.createGain();
-
-  source.buffer = buffer;
-  filterNode.type = "highpass";
-  filterNode.frequency.value = filter;
-
-  amp.gain.setValueAtTime(gain,time);
-  amp.gain.exponentialRampToValueAtTime(.0001,time+duration);
-
-  source.connect(filterNode);
-  filterNode.connect(amp);
-  amp.connect(padGain);
-
-  source.start(time);
+function noise(time,duration,level,filterHz,destination){
+  if(!audio||!destination)return;const len=Math.max(1,Math.floor(audio.sampleRate*duration)),buffer=audio.createBuffer(1,len,audio.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<len;i++)data[i]=Math.random()*2-1;
+  const src=audio.createBufferSource(),filter=audio.createBiquadFilter(),amp=audio.createGain();src.buffer=buffer;filter.type="highpass";filter.frequency.value=filterHz;amp.gain.setValueAtTime(Math.max(.0001,level),time);amp.gain.exponentialRampToValueAtTime(.0001,time+duration);src.connect(filter);filter.connect(amp);amp.connect(destination);src.start(time);
 }
-
-function playSound(name,time) {
-  if (!audio) return;
-
-  const t = time ?? audio.currentTime;
-
-  switch(name) {
-    case "kick":
-      playTone(125,t,.22,"sine",.8,padGain);
-      playTone(55,t,.18,"sine",.5,padGain);
-      break;
-
-    case "snare":
-      playNoise(t,.15,.5,900);
-      playTone(185,t,.08,"triangle",.2,padGain);
-      break;
-
-    case "hat":
-      playNoise(t,.05,.22,6500);
-      break;
-
-    case "clap":
-      playNoise(t,.12,.35,1300);
-      break;
-
-    case "cowbell":
-      playTone(560,t,.2,"square",.18,padGain);
-      playTone(845,t,.18,"square",.12,padGain);
-      break;
-
-    case "tom":
-      playTone(105,t,.24,"sine",.5,padGain);
-      break;
-
-    case "shaker":
-      playNoise(t,.09,.2,3800);
-      break;
-
-    case "rim":
-      playTone(920,t,.05,"triangle",.3,padGain);
-      break;
-  }
+function scheduleMetroSound(time,index){
+  const accented=accents[index]??false,sound=$("metroSound").value;
+  // Síntesis original del metrónomo conservada.
+  if(sound==="wood")tone(accented?1550:1050,time,.045,"triangle",accented?.4:.25,buses.metro);
+  else if(sound==="beep")tone(accented?1250:850,time,.055,"sine",.3,buses.metro);
+  else if(sound==="cowbell")tone(accented?780:620,time,.09,"square",.2,buses.metro);
+  else tone(accented?1800:1200,time,.035,"square",.25,buses.metro);
+  const delay=Math.max(0,(time-audio.currentTime)*1000);setTimeout(()=>{if(!running)return;$("beatCircle").textContent=index+1;$("beatCircle").classList.add("flash");document.querySelectorAll(".dot").forEach(d=>d.classList.remove("active"));$("dot"+index)?.classList.add("active");$("beatText").textContent="Tiempo "+(index+1)+(accented?" · Acentuado":"");setTimeout(()=>$("beatCircle").classList.remove("flash"),100);},delay);
 }
-
-document.getElementById("enableAudio")
-  .addEventListener("click",initAudio);
-
-/* =========================================
-   METRÓNOMO Y RELOJ MAESTRO
-========================================= */
-
-let bpm = 120;
-let running = false;
-let nextTime = 0;
-let tickPosition = 0;
-let scheduler = null;
-let accents = [];
-
-const TICKS_PER_BEAT = 16;
-
-const $ = id => document.getElementById(id);
-
-function setBpm(value) {
-  bpm = Math.max(30,Math.min(300,Math.round(value)));
-  $("bpm").textContent = bpm;
-  $("bpmRange").value = bpm;
+function saveMetro(){try{localStorage.setItem(STORAGE.metro,JSON.stringify({bpm,meter:$('meter').value,metroSound:$('metroSound').value,metroVolume:$('metroVolume').value,accents,ramp:{enabled:$('rampEnabled').value,step:$('rampStep').value,mode:$('rampMode').value,interval:$('rampInterval').value}}));}catch(e){}}
+function loadMetro(){try{const d=JSON.parse(localStorage.getItem(STORAGE.metro)||"null");if(!d)return null;bpm=Number(d.bpm)||120;if(d.meter)$('meter').value=d.meter;if(d.metroSound)$('metroSound').value=d.metroSound;if(d.metroVolume)$('metroVolume').value=d.metroVolume;if(d.ramp){$('rampEnabled').value=d.ramp.enabled||"off";$('rampStep').value=d.ramp.step||2;$('rampMode').value=d.ramp.mode||"bars";$('rampInterval').value=d.ramp.interval||4;}return d.accents||null;}catch(e){return null;}}
+function setBpm(v,persist=true){bpm=Math.max(30,Math.min(300,Math.round(Number(v)||120)));$('bpm').textContent=bpm;$('bpmRange').value=bpm;document.querySelectorAll('[data-bpm]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.bpm)===bpm));if(persist)saveMetro();if(typeof syncStickyPlayer==='function')syncStickyPlayer();}
+function renderAccents(saved){const n=Number($('meter').value);accents=Array.from({length:n},(_,i)=>Array.isArray(saved)&&typeof saved[i]==="boolean"?saved[i]:i===0);$('accents').innerHTML="";$('dots').innerHTML="";accents.forEach((on,i)=>{const b=document.createElement('button');b.type='button';b.textContent=i+1;b.className=on?'active':'';b.onclick=()=>{accents[i]=!accents[i];b.classList.toggle('active');saveMetro();};$('accents').appendChild(b);const d=document.createElement('div');d.className='dot';d.id='dot'+i;$('dots').appendChild(d);});}
+function processRamp(time,newBar){if($('rampEnabled').value!=="on")return;const step=Math.max(1,Number($('rampStep').value)||2),interval=Math.max(1,Number($('rampInterval').value)||4);if($('rampMode').value==="seconds"){if(time-lastRampSecTime>=interval){lastRampSecTime=time;setBpm(bpm+step);}}else if(newBar){barsCounted++;if(barsCounted>=interval){barsCounted=0;setBpm(bpm+step);}}}
+function startClock(){if(!initAudio()||running)return;running=true;tickPosition=0;barsCounted=0;nextTime=audio.currentTime+.06;lastRampSecTime=nextTime;syncMetroButton();$('status').textContent="EN MARCHA";if(strumEnabled()&&strumEvents.length){strumStartTick=0;strumLastVisual=-1;}
+  scheduler=setInterval(()=>{if(!running||!audio)return;while(nextTime<audio.currentTime+LOOKAHEAD){const beats=Math.max(1,Number($('meter').value)||4),ticksPerBar=beats*TICKS_PER_BEAT;const beatTick=tickPosition%TICKS_PER_BEAT;const beatIndex=Math.floor(tickPosition/TICKS_PER_BEAT)%beats;const barIndex=Math.floor(tickPosition/ticksPerBar);const isNewBar=tickPosition>0&&tickPosition%ticksPerBar===0;if(beatTick===0){processRamp(nextTime,isNewBar);scheduleMetroSound(nextTime,beatIndex);}scheduleStrumAtTick(tickPosition,nextTime,barIndex,beatIndex,beatTick);scheduleSequencerAtTick(tickPosition,nextTime,barIndex,beatIndex,beatTick);nextTime+=60/bpm/TICKS_PER_BEAT;tickPosition++;}},SCHEDULER_MS);
 }
+function stopClock(){running=false;if(scheduler){clearInterval(scheduler);scheduler=null;}seqPlaying=false;if($('seqPlay'))$('seqPlay').textContent="▶ REPRODUCIR";$('status').textContent="DETENIDO";syncMetroButton();}
+function syncMetroButton(){$('toggleMetro').textContent=running?'■ DETENER':'▶ INICIAR';$('toggleMetro').classList.toggle('primary',!running);if(typeof syncStickyPlayer==='function')syncStickyPlayer();}
+$('enableAudio').addEventListener('click',initAudio);$('toggleMetro').addEventListener('click',()=>running?stopClock():startClock());
+$('bpmRange').addEventListener('input',e=>setBpm(e.target.value));$('minus').onclick=()=>setBpm(bpm-1);$('plus').onclick=()=>setBpm(bpm+1);document.querySelectorAll('[data-bpm]').forEach(b=>b.onclick=()=>setBpm(b.dataset.bpm));let taps=[];$('tap').onclick=()=>{const now=performance.now();taps.push(now);taps=taps.slice(-5);if(taps.length>1){const a=taps.slice(1).map((v,i)=>v-taps[i]);setBpm(60000/(a.reduce((x,y)=>x+y,0)/a.length));}};
+$('meter').addEventListener('change',()=>{renderAccents();saveMetro();});$('metroSound').addEventListener('change',saveMetro);$('metroVolume').addEventListener('input',()=>{setBusVolume('metro','metroVolume');saveMetro();});['rampEnabled','rampStep','rampMode','rampInterval'].forEach(id=>$(id).addEventListener('change',saveMetro));
 
-$("bpmRange").addEventListener("input",e=>setBpm(e.target.value));
-$("minus").onclick=()=>setBpm(bpm-1);
-$("plus").onclick=()=>setBpm(bpm+1);
-
-document.querySelectorAll("[data-bpm]").forEach(button=>{
-  button.onclick=()=>setBpm(button.dataset.bpm);
-});
-
-let taps=[];
-
-$("tap").onclick=()=>{
-  const now=performance.now();
-  taps.push(now);
-  taps=taps.slice(-5);
-
-  if(taps.length>1) {
-    const intervals=taps.slice(1).map((v,i)=>v-taps[i]);
-    const avg=intervals.reduce((a,b)=>a+b,0)/intervals.length;
-    setBpm(60000/avg);
-  }
-};
-
-function renderAccents() {
-  const count=Number($("meter").value);
-
-  accents=Array.from({length:count},(_,i)=>i===0);
-
-  $("accents").innerHTML="";
-
-  accents.forEach((active,i)=>{
-    const button=document.createElement("button");
-    button.textContent=i+1;
-    button.className=active?"active":"";
-
-    button.onclick=()=>{
-      accents[i]=!accents[i];
-      button.classList.toggle("active");
-    };
-
-    $("accents").appendChild(button);
+/* ---------------- RASGUEOS: eventos con posiciones y duraciones ---------------- */
+let strumEvents=[],strumStartTick=0,strumLastVisual=-1;
+const STRUM_LABEL={down:'↓',up:'↑',bass1:'●',bass2:'◉',mute:'—'};
+function strumEnabled(){return $('strumEnabled')?.checked;}
+function strumBeatCount(){return Number($('strumMeter').value)||4;}
+function strumTicksPerBar(){return strumBeatCount()*TICKS_PER_BEAT;}
+function strumPosition(e){return ((e.bar-1)*strumBeatCount()+(e.beat-1))*TICKS_PER_BEAT+Number(e.sub||0);}
+function durationTicks(v){const map={'16':48,'8':24,'4':12,'32':96,'64':192,'12':36,'24':72,'16/3':16,'32/3':32};return map[String(v)]||48;}
+function durationName(v){const el=$('strumDuration').querySelector(`option[value="${CSS.escape(String(v))}"]`);return el?el.textContent:String(v);}
+function renderStrum(){const sorted=[...strumEvents].sort((a,b)=>strumPosition(a)-strumPosition(b));$('strumLiveSequence').innerHTML='';$('strumEditorSequence').innerHTML='';$('strumEventList').innerHTML='';$('strumPatternSummary').textContent=sorted.length+' movimientos';$('strumLiveInfo').textContent=sorted.length?`${$('strumMeter').selectedOptions[0].text} · ${$('strumBars').value} compás(es) · ${sorted.length} eventos`:'Sin patrón cargado';
+  sorted.forEach((e,i)=>{const label=STRUM_LABEL[e.type]||'?';const card=document.createElement('div');card.className='strum-step '+e.type;card.dataset.eventId=e.id;card.innerHTML=`${label}<small>C${e.bar} · T${e.beat} · ${durationName(e.duration)}</small>`;$('strumLiveSequence').appendChild(card);const edit=card.cloneNode(true);$('strumEditorSequence').appendChild(edit);
+    const row=document.createElement('div');row.className='strum-row';row.innerHTML=`<span class="strum-row-symbol">${label}</span><div><strong>${e.type==='bass1'||e.type==='bass2'?'Cuerda '+e.string+'ª':e.type==='mute'?'Silencio':e.type==='down'?'Rasgueo abajo':'Rasgueo arriba'}</strong><small>Compás ${e.bar} · Pulso ${e.beat} · Subdivisión ${Number(e.sub)/12+1} · ${durationName(e.duration)}</small></div><button type="button" data-edit="${e.id}">Editar</button><button type="button" data-del="${e.id}">Eliminar</button>`;$('strumEventList').appendChild(row);
   });
-
-  renderDots();
+  $('strumEventList').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{strumEvents=strumEvents.filter(e=>e.id!==b.dataset.del);saveStrum();renderStrum();});$('strumEventList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const e=strumEvents.find(x=>x.id===b.dataset.edit);if(!e)return;$('strumSymbol').value=e.type;$('strumBar').value=e.bar;$('strumBeat').value=e.beat;$('strumSubdivision').value=e.sub;$('strumDuration').value=e.duration;$('strumBassString').value=e.string||'6';$('strumAdd').dataset.editId=e.id;$('strumAdd').textContent='GUARDAR CAMBIOS';$('strumConfig').open=true;});
 }
+function renderStrumBeatOptions(){const count=strumBeatCount();$('strumBeat').innerHTML=Array.from({length:count},(_,i)=>`<option value="${i+1}">Pulso ${i+1}</option>`).join('');}
+const STRUM_LIBRARY_KEY='rhythm_studio_strum_library_v1';
+function saveStrum(){try{localStorage.setItem(STORAGE.strum,JSON.stringify({meter:$('strumMeter').value,bars:$('strumBars').value,events:strumEvents,updatedAt:Date.now()}));}catch(e){console.warn('No se pudo autoguardar el rasgueo.',e);}}
+function getStrumLibrary(){try{return JSON.parse(localStorage.getItem(STRUM_LIBRARY_KEY)||'[]');}catch(e){return [];}}
+function renderStrumLibrary(){const box=$('strumLibrary');box.innerHTML='';const all=getStrumLibrary();if(!all.length){box.innerHTML='<span class="strum-muted">Aún no hay patrones guardados con nombre.</span>';return;}all.forEach(item=>{const row=document.createElement('div');row.className='strum-library-row';const name=document.createElement('span');name.textContent=item.name+' · '+(item.events?.length||0)+' movimientos';const load=document.createElement('button');load.type='button';load.textContent='CARGAR Y REPRODUCIR';load.onclick=()=>{ $('strumMeter').value=item.meter||'4';$('strumBars').value=item.bars||'1';renderStrumBeatOptions();strumEvents=Array.isArray(item.events)?item.events.map(e=>({...e})):[];renderStrum();saveStrum();$('strumEnabled').checked=true;$('strumLive').classList.add('enabled');if(!running)startClock();else if(!seqPlaying)$('status').textContent='EN MARCHA';$('strumLiveInfo').textContent='Patrón cargado: '+item.name;};const del=document.createElement('button');del.type='button';del.textContent='✕';del.title='Eliminar patrón';del.onclick=()=>{if(!confirm('¿Eliminar el patrón «'+item.name+'»?'))return;localStorage.setItem(STRUM_LIBRARY_KEY,JSON.stringify(getStrumLibrary().filter(x=>x.id!==item.id)));renderStrumLibrary();};row.append(name,load,del);box.appendChild(row);});}
+function loadStrum(){try{const d=JSON.parse(localStorage.getItem(STORAGE.strum)||'null');if(d){if(d.meter)$('strumMeter').value=d.meter;if(d.bars)$('strumBars').value=d.bars;strumEvents=Array.isArray(d.events)?d.events:[];}}catch(e){strumEvents=[];}renderStrumBeatOptions();renderStrum();renderStrumLibrary();}
+$('strumMeter').addEventListener('change',()=>{renderStrumBeatOptions();$('strumBar').value='1';renderStrum();saveStrum();});$('strumBars').addEventListener('change',()=>{const max=Number($('strumBars').value);strumEvents=strumEvents.filter(e=>e.bar<=max);renderStrum();saveStrum();});$('strumOpenEditor').onclick=()=>$('strumConfig').open=!$('strumConfig').open;
+$('strumAdd').onclick=()=>{const id=$('strumAdd').dataset.editId||crypto.randomUUID();const e={id,type:$('strumSymbol').value,bar:Number($('strumBar').value),beat:Number($('strumBeat').value),sub:Number($('strumSubdivision').value),duration:$('strumDuration').value,string:$('strumBassString').value};const maxBars=Number($('strumBars').value);if(e.bar>maxBars){alert('El compás seleccionado supera la extensión del patrón.');return;}const old=strumEvents.findIndex(x=>x.id===id);if(old>=0)strumEvents[old]=e;else strumEvents.push(e);delete $('strumAdd').dataset.editId;$('strumAdd').textContent='＋ AÑADIR MOVIMIENTO';renderStrum();saveStrum();};
+$('strumSave').onclick=()=>{const name=prompt('Escribe un nombre para este patrón de rasgueo:');if(!name||!name.trim())return;try{const all=getStrumLibrary();all.push({id:crypto.randomUUID(),name:name.trim().slice(0,60),meter:$('strumMeter').value,bars:$('strumBars').value,events:strumEvents.map(e=>({...e})),createdAt:Date.now()});localStorage.setItem(STRUM_LIBRARY_KEY,JSON.stringify(all));saveStrum();renderStrumLibrary();}catch(e){alert('No se pudo guardar. El almacenamiento local puede estar lleno.');}};$('strumEnabled').addEventListener('change',()=>{$('strumLive').classList.toggle('enabled',strumEnabled());});$('strumVolume').addEventListener('input',()=>setBusVolume('strum','strumVolume'));
+function strumSound(type,time,string='6',noteDuration=.25) {if(type==='mute')return;const tail=Math.max(.055,Math.min(.8,noteDuration*.88));if(type==='down'){noise(time,Math.max(.055,Math.min(.42,noteDuration*.72)),.16,650,buses.strum);tone(185,time,tail,'triangle',.075,buses.strum);}else if(type==='up'){noise(time,Math.max(.05,Math.min(.34,noteDuration*.62)),.12,1250,buses.strum);tone(270,time,tail*.82,'sine',.055,buses.strum);}else{const freqs={'6':82.4,'5':110,'4':146.8,'3':196,'2':246.9,'1':329.6};tone(freqs[string]||82.4,time,tail,'triangle',.22,buses.strum);}}
+function scheduleStrumAtTick(globalTick,time,barIndex,beatIndex,beatTick){if(!strumEnabled()||!strumEvents.length)return;const patternBars=Number($('strumBars').value)||1;const patternTicks=patternBars*strumTicksPerBar();const local=globalTick%patternTicks;const due=strumEvents.filter(e=>strumPosition(e)===local);if(!due.length)return;due.forEach(e=>strumSound(e.type,time,e.string,durationTicks(e.duration)*60/bpm/TICKS_PER_BEAT));const delay=Math.max(0,(time-audio.currentTime)*1000);setTimeout(()=>{const ids=new Set(due.map(e=>e.id));const cards=$('strumLiveSequence').querySelectorAll('.strum-step');cards.forEach(c=>c.classList.toggle('active',ids.has(c.dataset.eventId)));$('strumLiveInfo').textContent=`Ejecutando ${due.map(e=>STRUM_LABEL[e.type]).join(' ')} · Compás ${Math.floor(local/strumTicksPerBar())+1} · Pulso ${Math.floor((local%strumTicksPerBar())/TICKS_PER_BEAT)+1}`;},delay);}
 
-function renderDots() {
-  const count=Number($("meter").value);
-  $("dots").innerHTML="";
-
-  for(let i=0;i<count;i++) {
-    const dot=document.createElement("div");
-    dot.className="dot";
-    dot.id="dot"+i;
-    $("dots").appendChild(dot);
-  }
+/* ---------------- SECUENCIADOR: 64 compases, 6 pistas y sampler ---------------- */
+const TRACKS=[{id:'kick',name:'BOMBO',emoji:'🥁',freq:70,defaultName:'Bombo sintetizado',soundId:'kick',sampleId:null},{id:'snare',name:'CAJA',emoji:'▰',freq:180,defaultName:'Caja sintetizada',soundId:'snare',sampleId:null},{id:'hat',name:'HI-HAT',emoji:'✳',freq:0,defaultName:'Hi-hat sintetizado',soundId:'hat',sampleId:null},{id:'clap',name:'PALMAS',emoji:'👏',freq:0,defaultName:'Palmas sintetizadas',soundId:'clap',sampleId:null},{id:'tom',name:'TOM',emoji:'◉',freq:110,defaultName:'Tom sintetizado',soundId:'tom',sampleId:null},{id:'shaker',name:'SHAKER',emoji:'〰',freq:0,defaultName:'Shaker sintetizado',soundId:'shaker',sampleId:null}];
+let seqData={},seqPage=0,seqPlaying=false,seqSolo=null,seqBuffers={},recorders={},recordChunks={},sampleBank=[];
+const SAMPLE_DB='rhythm-studio-samples-v1', MAX_RECORDING_BYTES=15*1024*1024, MAX_BANK_BYTES=80*1024*1024, MAX_RECORDING_SECONDS=30;
+function sampleDb(){return new Promise((resolve,reject)=>{if(!window.indexedDB)return reject(new Error('IndexedDB no disponible'));const req=indexedDB.open(SAMPLE_DB,2);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('tracks'))db.createObjectStore('tracks');if(!db.objectStoreNames.contains('samples'))db.createObjectStore('samples',{keyPath:'id'});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+async function getAllStoredSamples(){const db=await sampleDb();const records=await new Promise((resolve,reject)=>{const tx=db.transaction(['samples','tracks'],'readonly'),out=[];const req=tx.objectStore('samples').getAll();req.onsuccess=()=>{out.push(...req.result);const old=tx.objectStore('tracks').getAllKeys();old.onsuccess=()=>{let remaining=old.result.length;if(!remaining){resolve(out);return;}old.result.forEach(k=>{const r=tx.objectStore('tracks').get(k);r.onsuccess=()=>{if(r.result instanceof Blob)out.push({id:'legacy-'+k,name:'Grabación anterior · '+String(k).toUpperCase(),blob:r.result,size:r.result.size,legacy:true});if(!--remaining)resolve(out);};});};};req.onerror=()=>reject(req.error);});db.close();return records;}
+async function storeSample(blob){if(blob.size>MAX_RECORDING_BYTES)throw new Error('La grabación supera 15 MB. Reduce la duración.');const current=sampleBank.reduce((n,x)=>n+(x.size||0),0);if(current+blob.size>MAX_BANK_BYTES)throw new Error('El banco alcanzó el límite de 80 MB. Elimina grabaciones antiguas.');if(navigator.storage?.estimate){const estimate=await navigator.storage.estimate();if(estimate.quota&&estimate.usage+blob.size>estimate.quota*.85)throw new Error('Queda poco espacio disponible en el navegador. Libera almacenamiento antes de grabar.');}const id=crypto.randomUUID(),record={id,name:'Grabación '+new Date().toLocaleString('es-CO'),blob,size:blob.size,createdAt:Date.now()};const db=await sampleDb();await new Promise((resolve,reject)=>{const tx=db.transaction('samples','readwrite');tx.objectStore('samples').add(record);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||new Error('No se pudo guardar en IndexedDB'));});db.close();sampleBank.push(record);return record;}
+async function hydrateSamples(){try{const records=await getAllStoredSamples();sampleBank=[];for(const rec of records){try{const buffer=await audio.decodeAudioData(await rec.blob.arrayBuffer());seqBuffers[rec.id]=buffer;sampleBank.push(rec);if(rec.legacy){const track=TRACKS.find(t=>t.id===rec.id.replace('legacy-',''));if(track&&!track.sampleId)track.sampleId=rec.id;}}catch(err){console.warn('No se pudo decodificar una grabación',rec.name,err);}}renderSequencer();}catch(e){console.warn('No se pudo cargar el banco de sonidos.',e);}}
+async function deleteSample(id){const db=await sampleDb();await new Promise((resolve,reject)=>{const legacy=id.startsWith('legacy-'),tx=db.transaction(legacy?'tracks':'samples','readwrite');if(legacy)tx.objectStore('tracks').delete(id.slice(7));else tx.objectStore('samples').delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});db.close();sampleBank=sampleBank.filter(x=>x.id!==id);delete seqBuffers[id];TRACKS.forEach(t=>{if(t.sampleId===id){t.sampleId=null;t.soundId=t.id;}});saveSeq();renderSequencer();}
+let totalBars=16;
+function seqBeats(){return Number($('seqMeter').value)||4;}function stepsPerBar(){return seqBeats()*4;}function pageBars(){return Number($('pageBars').value)||4;}function pageCount(){return Math.ceil(totalBars/pageBars());}
+function cellKey(track,bar,step){return `${track}:${bar}:${step}`;}
+function renderSequencer(){const bars=pageBars(),steps=stepsPerBar(),start=seqPage*bars+1,end=Math.min(totalBars,start+bars-1),visible=(end-start+1)*steps;const grid=$('seqGrid');grid.innerHTML='';grid.style.setProperty('--visible-steps',visible);const head=document.createElement('div');head.className='seq-head';const blank=document.createElement('div');blank.className='seq-track-label';blank.textContent='PISTA / CONTROLES';head.appendChild(blank);for(let b=start;b<=end;b++){for(let st=0;st<steps;st++){const h=document.createElement('div');h.className='seq-head-cell '+(st===0?'bar-label':'');h.textContent=st===0?`C${b}`:(st%4===0?String(Math.floor(st/4)+1):'·');head.appendChild(h);}}grid.appendChild(head);
+  TRACKS.forEach(track=>{const row=document.createElement('div');row.className='seq-track';row.dataset.track=track.id;const label=document.createElement('div');label.className='seq-track-label';const name=document.createElement('strong');name.textContent=track.emoji+' '+track.name;const mute=document.createElement('button');mute.textContent=track.muted?'MUTED':'MUTE';mute.className=track.muted?'on':'';mute.onclick=()=>{track.muted=!track.muted;renderSequencer();};const solo=document.createElement('button');solo.textContent=seqSolo===track.id?'SOLO ✓':'SOLO';solo.className=seqSolo===track.id?'on':'';solo.onclick=()=>{seqSolo=seqSolo===track.id?null:track.id;renderSequencer();};const tools=document.createElement('div');tools.className='seq-track-tools';const rec=document.createElement('button');rec.textContent=recorders[track.id]?.state==='recording'?'■ STOP':'● REC';rec.className='seq-record-btn '+(recorders[track.id]?.state==='recording'?'recording':'');rec.onclick=()=>recorders[track.id]?.state==='recording'?stopRecording(track.id):startRecording(track.id);const vol=document.createElement('input');vol.type='range';vol.min=0;vol.max=100;vol.value=track.volume??85;vol.className='seq-volume';vol.title='Volumen de pista';vol.oninput=()=>{track.volume=Number(vol.value);saveSeq();};const select=document.createElement('select');select.className='seq-sound-select';select.title='Sonido asignado a esta pista';TRACKS.forEach(sourceTrack=>{const op=document.createElement('option');op.value='builtin:'+sourceTrack.id;op.textContent='Instrumento · '+sourceTrack.name;select.appendChild(op);});sampleBank.forEach(sample=>{const op=document.createElement('option');op.value='sample:'+sample.id;op.textContent='Grabado · '+sample.name;select.appendChild(op);});select.value=track.sampleId?'sample:'+track.sampleId:'builtin:'+(track.soundId||track.id);select.onchange=()=>{if(select.value.startsWith('sample:')){track.sampleId=select.value.slice(7);track.soundId=null;}else{track.sampleId=null;track.soundId=select.value.slice(8)||track.id;}saveSeq();};const reset=document.createElement('button');reset.textContent='RESET';reset.title='Restablecer sonido original';reset.onclick=()=>{track.sampleId=null;track.soundId=track.id;saveSeq();renderSequencer();};const removeAudio=document.createElement('button');removeAudio.textContent='BORRAR AUDIO';removeAudio.title='Eliminar este audio del banco';removeAudio.disabled=!track.sampleId;removeAudio.onclick=async()=>{if(!track.sampleId)return;if(!confirm('Eliminar este audio del banco compartido? Las pistas que lo usan volverán a su sonido predeterminado.'))return;try{await deleteSample(track.sampleId);}catch(e){alert('No se pudo eliminar el audio.');}};tools.append(rec,vol,select,reset,removeAudio);label.append(name,mute,solo,tools);row.appendChild(label);
+    for(let b=start;b<=end;b++){for(let st=0;st<steps;st++){const cell=document.createElement('button');cell.type='button';cell.className='seq-cell'+(st===0?' bar-start':st%4===0?' beat-start':'');const key=cellKey(track.id,b,st);cell.classList.toggle('active',!!seqData[key]);cell.dataset.key=key;cell.title=`Compás ${b}, pulso ${Math.floor(st/4)+1}, subdivisión ${st%4+1}`;cell.onclick=()=>{seqData[key]=!seqData[key];cell.classList.toggle('active',!!seqData[key]);saveSeq();};row.appendChild(cell);}}
+    grid.appendChild(row);
+  });$('pageLabel').textContent=`Compases ${start}–${end} de ${totalBars}`;$('jumpBar').max=totalBars;$('jumpBar').value=start;$('seqStatus').textContent=`Página ${seqPage+1}/${pageCount()} · ${steps} subdivisiones por compás · 6 pistas · ${sampleBank.length} sonidos grabados`;
 }
-
-function metroClick(time,index) {
-  const accented=accents[index] ?? false;
-  const sound=$("metroSound").value;
-  const volume=Number($("metroVolume").value)/100;
-
-  metroGain.gain.setValueAtTime(volume,time);
-
-  if(sound==="wood") {
-    playTone(accented?1550:1050,time,.045,"triangle",accented?.4:.25,metroGain);
-  } else if(sound==="beep") {
-    playTone(accented?1250:850,time,.055,"sine",.3,metroGain);
-  } else if(sound==="cowbell") {
-    playTone(accented?780:620,time,.09,"square",.2,metroGain);
-  } else {
-    playTone(accented?1800:1200,time,.035,"square",.25,metroGain);
-  }
-
-  const delay=Math.max(0,(time-audio.currentTime)*1000);
-
-  setTimeout(()=>{
-    $("beatCircle").textContent=index+1;
-    $("beatCircle").classList.add("flash");
-
-    document.querySelectorAll(".dot").forEach(d=>d.classList.remove("active"));
-    $("dot"+index)?.classList.add("active");
-
-    $("beatText").textContent="Tiempo "+(index+1);
-    setTimeout(()=>$("beatCircle").classList.remove("flash"),100);
-  },delay);
-}
-
-
-/* =========================================
-   EDITOR Y REPRODUCTOR DE RASGUEOS
-   Usa el reloj maestro del metrónomo (16 ticks por pulso).
-========================================= */
-// El rasgueo usa un reloj independiente de 48 ticks por pulso.
-// Comparte el BPM y el instante de inicio con el metrónomo, pero no su contador.
-const STRUM_TICKS_PER_BEAT = 48;
-let strumTickPosition = 0;
-let strumNextTime = 0;
-let strumEvents = [];
-let strumEditingId = null;
-let strumSaved = [];
-let strumActiveId = null;
-let strumLastTriggered = "";
-let strumRampBars = 0;
-let strumRampInterval = null;
-const strumNames = {
-  down:"Rasgueo hacia abajo", up:"Rasgueo hacia arriba",
-  bass1:"Bajeo primario", bass2:"Bajeo secundario", mute:"Silencio"
-};
-const strumArrows = {down:"↓",up:"↑",bass1:"●",bass2:"◉",mute:"—"};
-const strumClasses = {down:"down",up:"up",bass1:"bass1",bass2:"bass2",mute:""};
-const strumDurNames = {"16":"Negra","8":"Corchea","4":"Semicorchea","32":"Blanca","64":"Redonda","12":"Corchea con puntillo","24":"Negra con puntillo","16/3":"Tresillo de corcheas","32/3":"Tresillo de negras"};
-function strumDurationTicks(v) { return Number(v.split("/")[0]) / (Number(v.split("/")[1])||1); }
-function strumMeterBeats(){return Number($("strumMeter").value);}
-function strumPatternLength(){return strumMeterBeats()*STRUM_TICKS_PER_BEAT*Number($("strumBars").value);}
-// Los valores de subdivisión existentes están expresados en dieciseisavos (0, 4, 8, 12).
-// Se convierten a la resolución de 48 ticks para ubicar corcheas, semicorcheas y tresillos.
-function strumTick(ev){return ((ev.bar-1)*strumMeterBeats()+(ev.beat-1))*STRUM_TICKS_PER_BEAT+ev.sub*3;}
-function strumUpdateBeatOptions(){
-  const n=strumMeterBeats();
-  $("strumBeat").innerHTML=Array.from({length:n},(_,i)=>`<option value="${i+1}">Tiempo ${i+1}</option>`).join("");
-}
-function strumRenderSequence(target,activeId=null){
-  const sorted=[...strumEvents].sort((a,b)=>strumTick(a)-strumTick(b));
-  $(target).innerHTML=sorted.length?sorted.map(ev=>{
-    const bass=ev.symbol==="bass1"||ev.symbol==="bass2";
-    const sub=bass?`<small>Cuerda ${ev.string}ª</small>`:`<small>${strumDurNames[ev.duration]}</small>`;
-    return `<div class="strum-step ${strumClasses[ev.symbol]} ${activeId===ev.id?"active":""}" title="${strumNames[ev.symbol]}">${strumArrows[ev.symbol]}${sub}</div>`;
-  }).join(""):'<span class="strum-muted">No hay movimientos. Abre los ajustes para crear tu rasgueo.</span>';
-}
-function strumRender(){
-  strumRenderSequence("strumLiveSequence",strumActiveId);
-  strumRenderSequence("strumEditorSequence",null);
-  $("strumPatternSummary").textContent=`${strumEvents.length} movimientos · ${$("strumMeter").value}/4 · ${$("strumBars").value} compás(es)`;
-  $("strumLiveInfo").textContent=strumEvents.length?`${strumEvents.length} movimientos listos · ${$("strumMeter").value}/4`:"Sin patrón cargado · El metrónomo funciona de forma independiente.";
-  $("strumEventList").innerHTML=[...strumEvents].sort((a,b)=>strumTick(a)-strumTick(b)).map(ev=>{
-    const bass=ev.symbol==="bass1"||ev.symbol==="bass2";
-    const pos=`Compás ${ev.bar} · tiempo ${ev.beat} · subdivisión ${ev.sub+1}`;
-    const desc=`${strumNames[ev.symbol]} · ${pos} · ${strumDurNames[ev.duration]}${bass?` · cuerda ${ev.string}ª`:""}`;
-    return `<div class="strum-row"><div class="strum-row-symbol ${strumClasses[ev.symbol]}">${strumArrows[ev.symbol]}</div><div><strong>${strumNames[ev.symbol]}</strong><small>${desc}</small></div><button type="button" data-edit-strum="${ev.id}">Editar</button><button type="button" data-delete-strum="${ev.id}">Eliminar</button></div>`;
-  }).join("")||'<div class="strum-muted">Añade movimientos desde los controles de arriba.</div>';
-  document.querySelectorAll("[data-edit-strum]").forEach(b=>b.onclick=()=>strumEdit(Number(b.dataset.editStrum)));
-  document.querySelectorAll("[data-delete-strum]").forEach(b=>b.onclick=()=>{strumEvents=strumEvents.filter(e=>e.id!==Number(b.dataset.deleteStrum));if(strumEditingId===Number(b.dataset.deleteStrum))strumEditingId=null;strumRender()});
-}
-function strumEdit(id){
-  const ev=strumEvents.find(e=>e.id===id);if(!ev)return;
-  strumEditingId=id;
-  $("strumSymbol").value=ev.symbol;$("strumDuration").value=ev.duration;
-  $("strumBar").value=String(ev.bar);$("strumBeat").value=String(ev.beat);
-  $("strumSubdivision").value=String(ev.sub);$("strumBassString").value=String(ev.string||6);
-  $("strumAdd").textContent="✓ ACTUALIZAR MOVIMIENTO";
-  $("strumConfig").open=true;
-  $("strumSymbol").focus();
-}
-function strumAddOrUpdate(){
-  const ev={
-    id:strumEditingId||Date.now()+Math.floor(Math.random()*100000),
-    symbol:$("strumSymbol").value,duration:$("strumDuration").value,
-    bar:Number($("strumBar").value),beat:Number($("strumBeat").value),
-    sub:Number($("strumSubdivision").value),string:Number($("strumBassString").value)
-  };
-  if(strumEditingId){strumEvents=strumEvents.map(x=>x.id===strumEditingId?ev:x);strumEditingId=null;$("strumAdd").textContent="＋ AÑADIR MOVIMIENTO";}
-  else strumEvents.push(ev);
-  strumRender();
-}
-$("strumAdd").onclick=strumAddOrUpdate;
-$("strumMeter").onchange=()=>{strumUpdateBeatOptions();strumRender()};
-$("strumBars").onchange=strumRender;
-$("strumSymbol").onchange=()=>{$("strumBassStringWrap").style.opacity=["bass1","bass2"].includes($("strumSymbol").value)?"1":".45"};
-$("strumOpenEditor").onclick=()=>{$("strumConfig").open=!$("strumConfig").open;if($("strumConfig").open)$("strumConfig").scrollIntoView({behavior:"smooth",block:"nearest"})};
-$("strumEnabled").onchange=()=>{if($("strumEnabled").checked&&!strumEvents.length){$("strumConfig").open=true;$("strumLiveInfo").textContent="Crea primero un patrón para escuchar los rasgueos."}else $("strumLiveInfo").textContent=$("strumEnabled").checked?"Rasgueos activados":"Rasgueos desactivados"};
-$("strumSave").onclick=()=>{
-  if(!strumEvents.length){alert("Añade al menos un movimiento antes de guardar.");return}
-  const name=prompt("Nombre para guardar este rasgueo:",`Rasgueo ${strumSaved.length+1}`);
-  if(!name)return;
-  strumSaved.push({id:Date.now(),name,events:JSON.parse(JSON.stringify(strumEvents)),meter:$("strumMeter").value,bars:$("strumBars").value});
-  localStorage.setItem("rhythmStudioStrums",JSON.stringify(strumSaved));strumRenderLibrary();
-};
-function strumRenderLibrary(){
-  $("strumLibrary").innerHTML=strumSaved.map(p=>`<div class="strum-library-row"><span><strong>${p.name}</strong><br><small class="strum-muted">${p.events.length} movimientos · ${p.meter}/4</small></span><span style="display:flex;gap:6px"><button data-load-strum="${p.id}">Cargar / editar</button><button data-remove-strum="${p.id}">×</button></span></div>`).join("")||'<div class="strum-muted">Todavía no has guardado rasgueos.</div>';
-  document.querySelectorAll("[data-load-strum]").forEach(b=>b.onclick=()=>{const p=strumSaved.find(x=>x.id===Number(b.dataset.loadStrum));if(!p)return;strumEvents=JSON.parse(JSON.stringify(p.events));$("strumMeter").value=p.meter;$("strumBars").value=p.bars;strumUpdateBeatOptions();strumRender();$("strumConfig").open=true;});
-  document.querySelectorAll("[data-remove-strum]").forEach(b=>b.onclick=()=>{strumSaved=strumSaved.filter(x=>x.id!==Number(b.dataset.removeStrum));localStorage.setItem("rhythmStudioStrums",JSON.stringify(strumSaved));strumRenderLibrary()});
-}
-try{strumSaved=JSON.parse(localStorage.getItem("rhythmStudioStrums")||"[]")}catch(e){strumSaved=[]}
-strumUpdateBeatOptions();strumRender();strumRenderLibrary();
-$("strumBassStringWrap").style.opacity=".45";
-function playStrumSound(ev,time){
-  if(ev.symbol==="mute")return;
-  if(ev.symbol==="bass1"||ev.symbol==="bass2"){
-    const notes={1:330,2:247,3:196,4:147,5:110,6:82};
-    const freq=notes[Number(ev.string)]||82;
-    playTone(freq,time,.20,"triangle",.65,padGain);
-    return;
-  }
-  // Cada evento tiene su propio disparo: dos flechas ↓ seguidas se ejecutan dos veces.
-  const freqs=[196,247,294,370,440,587];
-  const ordered=ev.symbol==="down"?freqs:[...freqs].reverse();
-  ordered.forEach((f,i)=>playTone(f,time+i*.007,.12,"triangle",.17,padGain));
-}
-function playStrumScheduledEvents(tick,time){
-  if(!$("strumEnabled").checked||!strumEvents.length)return;
-  const len=strumPatternLength();if(!len)return;
-  const position=tick%len;
-  const matches=strumEvents.filter(ev=>strumTick(ev)===position);
-  matches.forEach(ev=>{
-    playStrumSound(ev,time);
-    strumActiveId=ev.id;
-    strumRenderSequence("strumLiveSequence",ev.id);
-    const delay=Math.max(0,(time-audio.currentTime)*1000);
-    setTimeout(()=>{if(strumActiveId===ev.id){strumActiveId=null;strumRenderSequence("strumLiveSequence",null)}},Math.max(100,delay+100));
-  });
-}
-
-// Reloj propio del rasgueo: mantiene el mismo BPM y arranque, pero su resolución
-// y su posición avanzan independientemente del pulso visual/sonoro del metrónomo.
-function schedulerStrumClock(){
-  if(!$('strumEnabled').checked||!strumEvents.length)return;
-  const len=strumPatternLength();
-  if(!len)return;
-  while(strumNextTime<audio.currentTime+.12){
-    playStrumScheduledEvents(strumTickPosition%len,strumNextTime);
-    strumNextTime+=60/bpm/STRUM_TICKS_PER_BEAT;
-    strumTickPosition++;
-  }
-}
-
-/* AUMENTO PROGRESIVO DEL TEMPO: por compases o por segundos */
-function strumRampStep(){
-  if($("rampEnabled").value!=="on")return;
-  const amount=Math.max(1,Math.min(20,Number($("rampStep").value)||1));
-  setBpm(Math.min(300,bpm+amount));
-}
-$("rampEnabled").onchange=()=>{
-  clearInterval(strumRampInterval);strumRampInterval=null;strumRampBars=0;
-  if($("rampEnabled").value==="on"&&$("rampMode").value==="seconds"){
-    strumRampInterval=setInterval(strumRampStep,Math.max(1,Number($("rampInterval").value)||1)*1000);
-  }
-};
-$("rampMode").onchange=()=>{$("rampEnabled").dispatchEvent(new Event("change"))};
-$("rampInterval").onchange=()=>{if($("rampEnabled").value==="on"&&$("rampMode").value==="seconds")$("rampEnabled").dispatchEvent(new Event("change"))};
-
-function schedulerTick() {
-  if(!running) return;
-
-  const tickDuration=60/bpm/TICKS_PER_BEAT;
-
-  while(nextTime<audio.currentTime+.12) {
-
-    const beats=Number($("meter").value);
-    const tickInBar=tickPosition%(beats*TICKS_PER_BEAT);
-
-    if(tickInBar%TICKS_PER_BEAT===0) {
-      const beat=Math.floor(tickInBar/TICKS_PER_BEAT);
-      metroClick(nextTime,beat);
-    }
-
-    // El secuenciador conserva el reloj original del metrónomo.
-    playScheduledEvents(tickPosition,nextTime);
-
-    // Subida automática de tempo al comenzar cada compás.
-    if(tickInBar===0 && tickPosition>0 && $("rampEnabled").value==="on" && $("rampMode").value==="bars"){
-      strumRampBars++;
-      if(strumRampBars>=Math.max(1,Number($("rampInterval").value)||1)){strumRampBars=0;strumRampStep();}
-    }
-
-    nextTime+=tickDuration;
-    tickPosition++;
-  }
-
-  // El rasgueo se procesa con su propio contador de subdivisiones.
-  schedulerStrumClock();
-}
-
-function startTransport() {
-  if(running) return;
-  if(!initAudio()) return;
-
-  running=true;
-  tickPosition=0;
-  nextTime=audio.currentTime+.05;
-  strumTickPosition=0;
-  strumNextTime=nextTime;
-
-  scheduler=setInterval(schedulerTick,20);
-
-  $("status").textContent="EN MARCHA";
-  $("start").textContent="● EN MARCHA";
-}
-
-function stopTransport() {
-  running=false;
-  clearInterval(scheduler);
-  scheduler=null;
-
-  $("status").textContent="DETENIDO";
-  $("start").textContent="▶ INICIAR";
-
-  stopPatternVisual();
-}
-
-$("start").onclick=startTransport;
-$("stop").onclick=stopTransport;
-
-$("meter").addEventListener("change",()=>{
-  renderAccents();
-  renderSequencer();
-});
-
-renderAccents();
-
-/* =========================================
-   CAJA DE SONIDOS
-========================================= */
-
-let padVolume=.95;
-
-$("padVolume").addEventListener("input",e=>{
-  padVolume=Number(e.target.value)/100;
-  if(padGain)padGain.gain.setTargetAtTime(padVolume,audio.currentTime,.015);
-});
-
-document.querySelectorAll("[data-sound]").forEach(button=>{
-  button.onclick=()=>{
-    initAudio();
-    playSound(button.dataset.sound);
-    button.classList.add("playing");
-    setTimeout(()=>button.classList.remove("playing"),120);
-  };
-});
-
-document.querySelectorAll("[data-tone]").forEach(button=>{
-  button.onclick=()=>{
-    initAudio();
-    playTone(
-      Number(button.dataset.tone),
-      audio.currentTime,
-      .45,
-      "sine",
-      .35,
-      padGain
-    );
-    button.classList.add("playing");
-    setTimeout(()=>button.classList.remove("playing"),120);
-  };
-});
-
-const keyboardSounds={
-  k:"kick",s:"snare",h:"hat",c:"clap",
-  b:"cowbell",t:"tom",j:"shaker",r:"rim"
-};
-
-window.addEventListener("keydown",e=>{
-  if(["INPUT","SELECT","TEXTAREA"].includes(document.activeElement.tagName))return;
-  const sound=keyboardSounds[e.key.toLowerCase()];
-  if(sound&&!e.repeat) {
-    initAudio();
-    playSound(sound);
-  }
-});
-
-$("upload").addEventListener("change",e=>{
-  [...e.target.files].forEach(file=>{
-    const url=URL.createObjectURL(file);
-    const button=document.createElement("button");
-    button.className="pad";
-    button.innerHTML=`<span>🎵</span><b>${file.name.replace(/[<>]/g,"")}</b><small>Audio propio</small>`;
-
-    button.onclick=()=>{
-      const a=new Audio(url);
-      a.volume=padVolume;
-      a.play();
-    };
-
-    $("customPads").appendChild(button);
-  });
-  e.target.value="";
-});
-
-/* =========================================
-   SECUENCIADOR RÍTMICO
-========================================= */
-
-// Cada pulso tiene 16 posiciones.
-// 1/64 = 1 tick; 1/32 = 2; 1/16 = 4; 1/8 = 8; negra = 16.
-const trackNames=[
-  ["BOMBO","kick"],
-  ["CAJA","snare"],
-  ["HI-HAT","hat"],
-  ["PALMAS","clap"],
-  ["CENCERRO","cowbell"],
-  ["TOM","tom"],
-  ["SHAKER","shaker"],
-  ["RIMSHOT","rim"]
-];
-
-const figures={
-  "1":{name:"Semifusa",duration:1,symbol:"𝅘𝅥𝅱"},
-  "2":{name:"Fusa",duration:2,symbol:"𝅘𝅥𝅰"},
-  "4":{name:"Semicorchea",duration:4,symbol:"𝅘𝅥𝅯"},
-  "8":{name:"Corchea",duration:8,symbol:"♪"},
-  "16":{name:"Negra",duration:16,symbol:"♩"},
-  "32":{name:"Blanca",duration:32,symbol:"𝅗𝅥"},
-  "64":{name:"Redonda",duration:64,symbol:"𝅝"},
-  "12":{name:"Corchea con puntillo",duration:12,symbol:"♪·"},
-  "24":{name:"Negra con puntillo",duration:24,symbol:"♩·"},
-  "5.333333":{name:"Tresillo",duration:16/3,symbol:"³"}
-};
-
-let events=[];
-let patternLength=128;
-let selectedFigure="16";
-let visualTick=-1;
-
-$("figure").onchange=e=>selectedFigure=e.target.value;
-
-function totalTicks() {
-  return Number($("meter").value)*16*Number($("bars").value);
-}
-
-function renderSequencer() {
-  patternLength=totalTicks();
-  $("sequencer").innerHTML="";
-  $("sequencer").style.setProperty("--steps",patternLength);
-
-  trackNames.forEach(([name,sound])=>{
-    const row=document.createElement("div");
-    row.className="track";
-    row.dataset.sound=sound;
-
-    const title=document.createElement("div");
-    title.className="track-name";
-    title.textContent=name;
-    row.appendChild(title);
-
-    for(let i=0;i<patternLength;i++) {
-      const cell=document.createElement("button");
-      cell.className="step";
-      if(i%16===0)cell.classList.add("beat-start");
-      cell.dataset.tick=i;
-      cell.title=name+" · posición "+(i+1);
-
-      cell.onclick=()=>{
-        const key=sound+":"+i;
-        const existing=events.find(e=>e.key===key);
-
-        if(existing) {
-          events=events.filter(e=>e!==existing);
-        } else {
-          const fig=figures[selectedFigure];
-          events=events.filter(e=>
-            !(e.sound===sound &&
-              e.tick<i+fig.duration &&
-              e.tick+e.duration>i)
-          );
-
-          events.push({
-            key,
-            sound,
-            tick:i,
-            duration:fig.duration,
-            symbol:fig.symbol
-          });
-        }
-
-        drawEvents();
-      };
-
-      row.appendChild(cell);
-    }
-
-    $("sequencer").appendChild(row);
-  });
-
-  $("patternInfo").textContent=
-    patternLength+" subdivisiones · "+
-    $("bars").value+" compás(es) · "+
-    $("meter").value+"/4";
-
-  drawEvents();
-}
-
-function drawEvents() {
-  document.querySelectorAll(".track").forEach(row=>{
-    row.querySelectorAll(".step").forEach(cell=>{
-      cell.classList.remove("active","continuation");
-      cell.textContent="";
-    });
-
-    events.filter(e=>e.sound===row.dataset.sound).forEach(e=>{
-      const start=row.querySelector(`[data-tick="${Math.floor(e.tick)}"]`);
-      if(start) {
-        start.classList.add("active");
-        start.textContent=e.symbol;
-      }
-
-      for(let n=1;n<Math.ceil(e.duration);n++) {
-        const cell=row.querySelector(`[data-tick="${Math.floor(e.tick)+n}"]`);
-        if(cell)cell.classList.add("continuation");
-      }
-    });
-  });
-}
-
-function playScheduledEvents(tick,time) {
-  if(!patternPlaying)return;
-
-  const position=tick%patternLength;
-
-  events.filter(e=>Math.abs(e.tick-position)<.001).forEach(e=>{
-    playSound(e.sound,time);
-  });
-
-  if(position!==visualTick) {
-    visualTick=position;
-    document.querySelectorAll(".step.playhead").forEach(c=>c.classList.remove("playhead"));
-
-    document.querySelectorAll(".track").forEach(row=>{
-      row.querySelector(`[data-tick="${Math.floor(position)}"]`)?.classList.add("playhead");
-    });
-  }
-}
-
-let patternPlaying=false;
-
-function stopPatternVisual() {
-  patternPlaying=false;
-  $("playPattern").textContent="▶ REPRODUCIR";
-  document.querySelectorAll(".step.playhead").forEach(c=>c.classList.remove("playhead"));
-}
-
-$("playPattern").onclick=()=>{
-  if(patternPlaying) {
-    stopPatternVisual();
-    return;
-  }
-
-  patternPlaying=true;
-  $("playPattern").textContent="■ DETENER";
-
-  if(!running)startTransport();
-};
-
-$("bars").onchange=()=>{
-  events=events.filter(e=>e.tick<totalTicks());
-  renderSequencer();
-};
-
-$("clear").onclick=()=>{
-  events=[];
-  drawEvents();
-};
-
-$("savePattern").onclick=()=>{
-  const data={
-    bpm,
-    meter:$("meter").value,
-    bars:$("bars").value,
-    events
-  };
-
-  localStorage.setItem("rhythmStudioPattern",JSON.stringify(data));
-  alert("Patrón guardado correctamente en este navegador.");
-};
-
-try {
-  const saved=JSON.parse(localStorage.getItem("rhythmStudioPattern"));
-  if(saved&&Array.isArray(saved.events)) {
-    events=saved.events;
-  }
-} catch(e) {}
-
-renderSequencer();
-
-/* =========================================
-   TEMPORIZADOR
-========================================= */
-
-let remaining=3600;
-let timerEnd=0;
-let timerRunning=false;
-let timerInterval=null;
-
-function formatTime(seconds) {
-  const min=Math.floor(seconds/60);
-  const sec=seconds%60;
-
-  return String(min).padStart(2,"0")+":"+
-         String(sec).padStart(2,"0");
-}
-
-function updateTimer() {
-  $("timerDisplay").textContent=formatTime(remaining);
-}
-
-function setMinutes(value) {
-  const minutes=Math.max(1,Math.min(240,Number(value)||60));
-
-  remaining=Math.round(minutes*60);
-  $("customMinutes").value=minutes;
-  updateTimer();
-}
-
-document.querySelectorAll("[data-min]").forEach(button=>{
-  button.onclick=()=>{
-    document.querySelectorAll("[data-min]").forEach(b=>b.classList.remove("selected"));
-    button.classList.add("selected");
-    setMinutes(button.dataset.min);
-  };
-});
-
-$("customMinutes").onchange=e=>{
-  setMinutes(e.target.value);
-  document.querySelectorAll("[data-min]").forEach(b=>{
-    b.classList.toggle("selected",Number(b.dataset.min)===Number(e.target.value));
-  });
-};
-
-function timerTick() {
-  remaining=Math.max(0,Math.ceil((timerEnd-Date.now())/1000));
-  updateTimer();
-
-  if(remaining===0) {
-    clearInterval(timerInterval);
-    timerRunning=false;
-    $("timerStatus").textContent="SESIÓN COMPLETADA";
-
-    if($("alarm").checked) {
-      initAudio();
-      playSound("cowbell");
-      setTimeout(()=>playSound("cowbell"),350);
-    }
-  }
-}
-
-$("timerStart").onclick=()=>{
-  if(timerRunning)return;
-
-  initAudio();
-  timerRunning=true;
-  timerEnd=Date.now()+remaining*1000;
-
-  $("timerStatus").textContent="SESIÓN EN CURSO";
-  timerInterval=setInterval(timerTick,250);
-};
-
-$("timerPause").onclick=()=>{
-  if(!timerRunning)return;
-
-  timerTick();
-  clearInterval(timerInterval);
-  timerRunning=false;
-  $("timerStatus").textContent="SESIÓN EN PAUSA";
-};
-
-$("timerReset").onclick=()=>{
-  clearInterval(timerInterval);
-  timerRunning=false;
-  setMinutes($("customMinutes").value);
-  $("timerStatus").textContent="LISTO PARA PRACTICAR";
-};
-
-updateTimer();
+function saveSeq(){try{localStorage.setItem(STORAGE.seq,JSON.stringify({data:seqData,tempo:bpm,meter:$('seqMeter').value,totalBars,tracks:TRACKS.map(t=>({id:t.id,sampleId:t.sampleId,soundId:t.soundId,volume:t.volume,muted:!!t.muted})),pageBars:$('pageBars').value}));}catch(e){$('seqStatus').textContent='No se pudo autoguardar: almacenamiento local lleno.';}}
+function loadSeq(){try{const d=JSON.parse(localStorage.getItem(STORAGE.seq)||'null');if(d?.data)seqData=d.data;if(d?.meter)$('seqMeter').value=d.meter;if(d?.totalBars)totalBars=Math.max(1,Math.min(64,Number(d.totalBars)||16));$('totalBarsInput').value=totalBars;if(d?.pageBars)$('pageBars').value=String(d.pageBars);(d?.tracks||[]).forEach(saved=>{const t=TRACKS.find(x=>x.id===saved.id);if(t){t.sampleId=saved.sampleId||null;t.soundId=saved.soundId||t.id;t.volume=saved.volume??85;t.muted=!!saved.muted;}});}catch(e){seqData={};}renderSequencer();}
+$('pagePrev').onclick=()=>{seqPage=Math.max(0,seqPage-1);renderSequencer();};$('pageNext').onclick=()=>{seqPage=Math.min(pageCount()-1,seqPage+1);renderSequencer();};$('jumpGo').onclick=()=>{const bar=Math.max(1,Math.min(totalBars,Number($('jumpBar').value)||1));seqPage=Math.floor((bar-1)/pageBars());renderSequencer();};$('pageBars').onchange=()=>{seqPage=0;renderSequencer();saveSeq();};$('totalBarsInput').onchange=()=>{const n=Math.max(1,Math.min(64,Math.floor(Number($('totalBarsInput').value)||1)));totalBars=n;$('totalBarsInput').value=n;Object.keys(seqData).forEach(key=>{const m=key.match(/^[^:]+:(\d+):/);if(m&&Number(m[1])>n)delete seqData[key];});seqPage=Math.min(seqPage,pageCount()-1);renderSequencer();saveSeq();};$('seqMeter').onchange=()=>{seqPage=0;renderSequencer();saveSeq();};$('seqClear').onclick=()=>{if(confirm(`¿Limpiar todas las 6 pistas de los ${totalBars} compases?`)){seqData={};renderSequencer();saveSeq();}};
+function playTrackSound(trackId,time){const track=TRACKS.find(t=>t.id===trackId);if(!track)return;const active=seqSolo?seqSolo===trackId:!track.muted;if(!active)return;const v=(Number(track.volume??85)/100);const custom=track.sampleId?seqBuffers[track.sampleId]:null;if(custom){const src=audio.createBufferSource(),g=audio.createGain();src.buffer=custom;g.gain.value=v;src.connect(g);g.connect(buses.sequencer);src.start(time);return;}switch(track.soundId||trackId){case'kick':tone(125,time,.19,'sine',.55*v,buses.sequencer);tone(52,time,.16,'sine',.3*v,buses.sequencer);break;case'snare':noise(time,.13,.34*v,850,buses.sequencer);tone(185,time,.07,'triangle',.16*v,buses.sequencer);break;case'hat':noise(time,.045,.16*v,6500,buses.sequencer);break;case'clap':noise(time,.105,.25*v,1400,buses.sequencer);break;case'tom':tone(115,time,.2,'sine',.42*v,buses.sequencer);break;case'shaker':noise(time,.07,.13*v,3900,buses.sequencer);break;}}
+function scheduleSequencerAtTick(globalTick,time,barIndex,beatIndex,beatTick){if(!seqPlaying)return;const beats=seqBeats(),barTicks=beats*TICKS_PER_BEAT;if(globalTick%12!==0)return;const bar=Math.floor(globalTick/barTicks)%totalBars+1;const step=Math.floor((globalTick%barTicks)/12);if(step>=stepsPerBar())return;TRACKS.forEach(t=>{if(seqData[cellKey(t.id,bar,step)])playTrackSound(t.id,time);});const delay=Math.max(0,(time-audio.currentTime)*1000);setTimeout(()=>{const firstVisible=seqPage*pageBars()+1,lastVisible=Math.min(totalBars,firstVisible+pageBars()-1);if(bar<firstVisible||bar>lastVisible){seqPage=Math.floor((bar-1)/pageBars());renderSequencer();}document.querySelectorAll('.seq-cell.playhead').forEach(x=>x.classList.remove('playhead'));document.querySelectorAll(`.seq-cell[data-key$=":${bar}:${step}"]`).forEach(x=>x.classList.add('playhead'));},delay);}
+function startSeq(){if(!initAudio())return;seqPlaying=true;if(!running)startClock();$('seqStatus').textContent='Secuenciador reproduciéndose con el reloj maestro.';$('seqPlay').textContent='REPRODUCIENDO';}
+function stopSeq(){seqPlaying=false;$('seqPlay').textContent='▶ REPRODUCIR';$('seqStatus').textContent='Secuenciador detenido.';document.querySelectorAll('.seq-cell.playhead').forEach(x=>x.classList.remove('playhead'));}
+$('seqPlay').onclick=()=>seqPlaying?stopSeq():startSeq();$('seqStop').onclick=stopSeq;$('seqVolume').oninput=()=>setBusVolume('sequencer','seqVolume');
+async function startRecording(trackId){if(!initAudio())return;if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){alert('La grabación requiere un navegador compatible y una conexión segura (HTTPS o localhost).');return;}try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const mime=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'';const recorder=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);recorders[trackId]=recorder;recordChunks[trackId]=[];recorder.ondataavailable=e=>{if(e.data.size)recordChunks[trackId].push(e.data);};recorder.onstop=async()=>{try{const blob=new Blob(recordChunks[trackId],{type:recorder.mimeType||'audio/webm'});if(blob.size>MAX_RECORDING_BYTES)throw new Error('La grabación superó 15 MB.');const buffer=await audio.decodeAudioData(await blob.arrayBuffer());const saved=await storeSample(blob);seqBuffers[saved.id]=buffer;const track=TRACKS.find(t=>t.id===trackId);if(track)track.sampleId=saved.id;$('seqStatus').textContent=`${saved.name} guardada en el banco (${(blob.size/1024/1024).toFixed(2)} MB) y asignada a ${trackId.toUpperCase()}.`;saveSeq();}catch(err){alert(err.message||'No se pudo guardar la grabación.');$('seqStatus').textContent='La grabación no se guardó. Revisa el espacio disponible.';}finally{stream.getTracks().forEach(t=>t.stop());recorders[trackId]=null;renderSequencer();}};recorder.start(1000);recorders[trackId]._stream=stream;recorders[trackId]._limit=setTimeout(()=>{if(recorder.state==='recording'){recorder.stop();$('seqStatus').textContent='Límite de grabación de 30 segundos alcanzado.';}},MAX_RECORDING_SECONDS*1000);renderSequencer();$('seqStatus').textContent=`Grabando ${trackId.toUpperCase()}… máximo 30 segundos; pulsa STOP para terminar.`;}catch(err){alert('No se pudo acceder al micrófono. Revisa los permisos del navegador.');}}
+function stopRecording(trackId){const r=recorders[trackId];if(r&&r.state==='recording'){clearTimeout(r._limit);r.stop();}}
+$('seqSave').onclick=()=>{saveSeq();const name=prompt('Nombre del patrón:');if(!name)return;try{const all=JSON.parse(localStorage.getItem('rhythm_studio_seq_library')||'[]');all.push({name,data:seqData,meter:$('seqMeter').value,totalBars});localStorage.setItem('rhythm_studio_seq_library',JSON.stringify(all));renderSavedPatterns();}catch(e){alert('No se pudo guardar el patrón.');}};
+function renderSavedPatterns(){const box=$('savedSeqPatterns');box.innerHTML='';try{const all=JSON.parse(localStorage.getItem('rhythm_studio_seq_library')||'[]');all.forEach((p,i)=>{const wrap=document.createElement('span');wrap.style.display='inline-flex';wrap.style.gap='5px';const b=document.createElement('button');b.textContent='Cargar: '+p.name;b.onclick=()=>{seqData=p.data||{};$('seqMeter').value=p.meter||'4';totalBars=Math.max(1,Math.min(64,p.totalBars||totalBars));$('totalBarsInput').value=totalBars;seqPage=0;renderSequencer();saveSeq();};const del=document.createElement('button');del.textContent='✕';del.title='Eliminar patrón';del.onclick=()=>{if(!confirm('¿Eliminar este patrón guardado?'))return;all.splice(i,1);localStorage.setItem('rhythm_studio_seq_library',JSON.stringify(all));renderSavedPatterns();};wrap.append(b,del);box.appendChild(wrap);});}catch(e){}}
+
+
+/* ---------------- TEMPORIZADOR Y ALARMA ---------------- */
+let timerRemaining=3600,timerInterval=null,timerRunning=false,alarmInterval=null,alarmTimeout=null,alarmOscillators=[];
+function displayTimer(){const m=Math.floor(timerRemaining/60),s=timerRemaining%60;$('timerDisplay').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+function stopAlarm(){if(alarmInterval){clearInterval(alarmInterval);alarmInterval=null;}if(alarmTimeout){clearTimeout(alarmTimeout);alarmTimeout=null;}alarmOscillators.forEach(o=>{try{o.stop();}catch(e){}});alarmOscillators=[];$('alarmStop').style.display='none';}
+function alarmBurst(){if(!audio||!buses.timer)return;const t=audio.currentTime;[880,1174,988,1318].forEach((f,i)=>tone(f,t+i*.19,.15,'sine',.24,buses.timer));}
+function startAlarm(){if(!initAudio())return;setBusVolume('timer','timerVolume');stopAlarm();$('alarmStop').style.display='inline-block';alarmBurst();alarmInterval=setInterval(alarmBurst,1050);alarmTimeout=setTimeout(()=>{if(alarmInterval){clearInterval(alarmInterval);alarmInterval=null;}$('alarmStop').style.display='none';$('timerStatus').textContent='SESIÓN FINALIZADA';alarmTimeout=null;},8000);}
+$('alarmStop').onclick=stopAlarm;$('timerVolume').oninput=()=>setBusVolume('timer','timerVolume');
+function setTimerMinutes(min){timerRemaining=Math.max(60,Math.min(240,Number(min)||60)*60);displayTimer();$('customMinutes').value=Math.round(timerRemaining/60);}
+document.querySelectorAll('[data-min]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-min]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');setTimerMinutes(b.dataset.min);});
+$('timerStart').onclick=()=>{if(timerRunning)return;initAudio();if(timerRemaining<=0)setTimerMinutes($('customMinutes').value);timerRunning=true;$('timerStatus').textContent='SESIÓN EN CURSO';timerInterval=setInterval(()=>{timerRemaining--;displayTimer();if(timerRemaining<=0){clearInterval(timerInterval);timerInterval=null;timerRunning=false;$('timerStatus').textContent='TIEMPO COMPLETADO';if($('alarm').checked)startAlarm();}},1000);};
+$('timerPause').onclick=()=>{if(timerInterval)clearInterval(timerInterval);timerInterval=null;timerRunning=false;$('timerStatus').textContent='SESIÓN EN PAUSA';};$('timerReset').onclick=()=>{if(timerInterval)clearInterval(timerInterval);timerInterval=null;timerRunning=false;stopAlarm();setTimerMinutes($('customMinutes').value);$('timerStatus').textContent='LISTO PARA PRACTICAR';};$('customMinutes').onchange=()=>setTimerMinutes($('customMinutes').value);
+
+
+/* ---------------- REPRODUCTOR FLOTANTE ---------------- */
+function syncStickyPlayer(){if($('stickyPlay'))$('stickyPlay').textContent=running?'■ DETENER':'▶ INICIAR';if($('stickyBpm'))$('stickyBpm').textContent=bpm+' BPM';}
+$('stickyPlay').onclick=()=>{if(running)stopClock();else startClock();syncStickyPlayer();};
+if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{const visible=entries[0].isIntersecting;$('stickyPlayer').classList.toggle('visible',!visible);},{threshold:0});observer.observe($('metronomo'));}else{window.addEventListener('scroll',()=>{$('stickyPlayer').classList.toggle('visible',window.scrollY>650);},{passive:true});}
+const bpmSync=setInterval(syncStickyPlayer,300);
+
+/* ---------------- INICIALIZACIÓN ---------------- */
+(function init(){const saved=loadMetro();setBpm(bpm,false);renderAccents(saved);syncMetroButton();loadStrum();loadSeq();renderSavedPatterns();$('strumVolume').value=65;setBusVolume('metro','metroVolume');$('strumConfig').open=false;displayTimer();saveMetro();})();
 </script>
-
 </body>
 </html>
